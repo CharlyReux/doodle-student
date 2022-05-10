@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: mvn package --file api_old/pom.xml & mkdir api_old/target/lib
+      run: mvn package --file api_old/pom.xml && mkdir api_old/target/lib& cd api_old/target/lib && mvn install dependency:copy-dependencies --file api_old\pom.xml 
