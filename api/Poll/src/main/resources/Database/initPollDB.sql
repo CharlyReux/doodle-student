@@ -6,8 +6,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `poll_test`
 --
-CREATE DATABASE IF NOT EXISTS `poll_test` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `tlc`;
+CREATE DATABASE IF NOT EXISTS `pollTest` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `pollTest`;
 
 -- --------------------------------------------------------
 
