@@ -1,18 +1,18 @@
 version: "3.8"
 services:
-  db:
+  db_User:
     image: mysql
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=tlc
-      - MYSQL_USER=tlc
-      - MYSQL_PASSWORD=tlc
+      - MYSQL_ROOT_PASSWORD=root_User
+      - MYSQL_DATABASE=user
+      - MYSQL_USER=user_user
+      - MYSQL_PASSWORD=user_pswd
   user:
     image: quarkus/user-jvm:latest
     ports:
       - "8080:8080"
     links:
-      - "db"
+      - "db_User"
     

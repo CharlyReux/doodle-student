@@ -2,11 +2,11 @@ package fr.istic.tlc.domain;
 
 import javax.persistence.*;
 
-//@Entity
+@Entity
 public class User {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String username;
