@@ -10,6 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import fr.istic.tlc.domain.User;
 
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.HttpStatus;
+import javax.validation.Valid;
+import org.springframework.web.bind.annotation.RequestBody;
 import fr.istic.tlc.dao.UserRepository;
 import io.quarkus.panache.common.Sort;
 
@@ -21,8 +27,16 @@ public class UserResource {
     UserRepository userRepository;
 
     @GetMapping("/users")
-	public List<User> retrieveAllUsers() {
-		userRepository.persist(new User());
-		return userRepository.getAllUser();
+	public ResponseEntity<List<User>> retrieveAllUsers() {
+		return new ResponseEntity<>(userRepository.findAll().list(), HttpStatus.OK);
+	}
+
+	@PostMapping("/addUser")
+	public ResponseEntity<User> createUser(@Valid @RequestBody String s) {
+		// On sauvegarde l'utilisateur dans la bdd
+		User user =new User();
+		user.setMail("mail@test");
+		userRepository.persist(user);
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 }
