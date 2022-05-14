@@ -1,19 +1,17 @@
 version: "3.8"
 services:
-  db:
+  polldb:
     image: mysql
     ports:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=pollTest
-      - MYSQL_USER=pollTest
-      - MYSQL_PASSWORD=pollTest
-    volumes:
-      - "./src/main/resources/database/initPollDB.sql:/docker-entrypoint-initdb.d/2.sql"
-  poll:
+      - MYSQL_DATABASE=poll
+      - MYSQL_USER=poll_user
+      - MYSQL_PASSWORD=poll_pswd
+  pollservice:
     image: quarkus/poll-jvm:latest
     links:
-    - "db"
+    - "polldb"
     ports:
       - "8080:8080"
