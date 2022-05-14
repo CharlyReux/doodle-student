@@ -10,8 +10,8 @@ services:
       - MYSQL_USER=poll_user
       - MYSQL_PASSWORD=poll_pswd
   pollservice:
-    image: quarkus/poll-jvm:latest
-    links:
-    - "polldb"
-    ports:
+     image: quarkus/poll-jvm:latest
+     depends_on:
+      - "polldb"
+     ports:
       - "8080:8080"

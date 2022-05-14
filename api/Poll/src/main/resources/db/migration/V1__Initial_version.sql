@@ -79,7 +79,7 @@ INSERT INTO `hibernate_sequence` (`next_val`) VALUES
 -- Structure de la table `User`
 --
 
-CREATE TABLE `poll` (
+CREATE TABLE `Poll` (
   `id` bigint NOT NULL,
   `title` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -91,9 +91,9 @@ CREATE TABLE `poll` (
 
 
 --
--- Index pour la table `User`
+-- Index pour la table `poll`
 --
-ALTER TABLE `poll`
+ALTER TABLE `Poll`
   ADD PRIMARY KEY (`id`);
 
 --
