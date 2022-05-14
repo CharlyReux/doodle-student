@@ -26,6 +26,11 @@ public class UserResource {
 	@Autowired
     UserRepository userRepository;
 
+	@GetMapping("/testApi")
+	public String testApi(){
+		return "this endpoint works";
+	}
+
     @GetMapping("/users")
 	public ResponseEntity<List<User>> retrieveAllUsers() {
 		return new ResponseEntity<>(userRepository.findAll().list(), HttpStatus.OK);
