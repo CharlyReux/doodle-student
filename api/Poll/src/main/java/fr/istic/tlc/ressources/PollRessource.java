@@ -52,23 +52,25 @@ public class PollRessource{
     @PostMapping("/polls")
 	@Transactional
     @Operation(summary = "Creates a Poll",description = "creates a new poll in the database")
-	public ResponseEntity<Poll> createPoll(@Valid @RequestBody PollDTO poll) {
-		pollRepository.persist(poll.toPoll());
-		return new ResponseEntity<>(poll.toPoll(), HttpStatus.CREATED);
+	public ResponseEntity<Poll> createPoll(@Valid @RequestBody Poll poll) {
+		pollRepository.persist(poll);
+		return new ResponseEntity<>(poll, HttpStatus.CREATED);
 	}
 
-    /*@GetMapping("/{id}")
+    @GetMapping("/{id}")
 	@Transactional
     @Operation(summary = "retrieves a Poll by its id",description = "gets the poll corresponding to the id specified in the database")
-	public ResponseEntity<Poll> getPollByID(@PathParam("test") long id) {
+	public ResponseEntity<Poll> getPollByID(@PathParam("id") long id) {
 		Poll p = this.pollRepository.findById(id);
+        System.out.println(p);
         if(p.equals(null)){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 		return new ResponseEntity<>(p, HttpStatus.FOUND);
-	}*/
+	}
 
-
+    //TODO: problem when using pollDTO because not specifying the ID or something
+    //TODO: problem with getPollbyID "TypeError: Window.fetch: HEAD or GET Request cannot have a body."
 
 
 }
