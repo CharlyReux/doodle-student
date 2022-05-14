@@ -1,7 +1,11 @@
 package fr.istic.tlc.domain;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.persistence.*;
 
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 @Entity
 public class User {
 
@@ -12,8 +16,16 @@ public class User {
     private String username;
     private String mail;
     private String password;
+    private String salt = "secret_pepper";
 
+    HashFunction hf =Hashing.sha256();
     public User(){}
+    
+    public User(String username, String mail, String password){
+        this.username=username;
+        this.mail=mail;
+        this.password=Hashing.sha256().hashString(password+salt, StandardCharsets.UTF_8).toString();
+    }
 
     public String getMail(){
         return mail;
@@ -35,4 +47,11 @@ public class User {
         return this.username;
     }
     
+    public String getPassword(){
+        return this.password;
+    }
+
+    public void setPassword(String password){
+        this.password=Hashing.sha256().hashString(password+salt, StandardCharsets.UTF_8).toString();
+    }
 }

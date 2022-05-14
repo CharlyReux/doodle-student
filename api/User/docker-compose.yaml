@@ -9,10 +9,8 @@ services:
       - MYSQL_DATABASE=user
       - MYSQL_USER=user_user
       - MYSQL_PASSWORD=user_pswd
-  user:
-    image: quarkus/user-jvm:latest
-    ports:
-      - "8080:8080"
-    links:
-      - "db_User"
+#  user:
+#    image: quarkus/user-jvm:latest
+#    ports:
+#      - "8080:8080"
     

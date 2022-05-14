@@ -32,11 +32,14 @@ public class UserResource {
 	}
 
 	@PostMapping("/addUser")
-	public ResponseEntity<User> createUser(@Valid @RequestBody String s) {
+	public String createUser(@Valid @RequestBody User user) {
 		// On sauvegarde l'utilisateur dans la bdd
-		User user =new User();
-		user.setMail("mail@test");
 		userRepository.persist(user);
-		return new ResponseEntity<>(user, HttpStatus.CREATED);
+		return "user added";
 	}
+
+	@PostMapping("/postbody")
+    public String postBody(@RequestBody String fullName) {
+        return "Hello " + fullName;
+    }
 }
