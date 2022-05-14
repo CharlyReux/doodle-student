@@ -9,8 +9,16 @@ services:
       - MYSQL_DATABASE=user
       - MYSQL_USER=user_user
       - MYSQL_PASSWORD=user_pswd
-#  user:
-#    image: quarkus/user-jvm:latest
-#    ports:
-#      - "8080:8080"
-    
+    healthcheck:
+      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root_User' ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+  user:
+    image: quarkus/user-jvm:latest
+    depends_on:
+      db_User:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    restart: on-failure
