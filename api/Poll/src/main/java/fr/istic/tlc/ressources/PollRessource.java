@@ -6,7 +6,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.PathParam;
 
-
+import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 
 import fr.istic.tlc.dao.PollRepository;
 import fr.istic.tlc.domain.Poll;
+import fr.istic.tlc.dto.PollDTO;
 import io.quarkus.panache.common.Sort;
 
 
@@ -42,6 +43,7 @@ public class PollRessource{
     }
 
     @GetMapping("/all")
+    @Operation(summary = "Gets all Polls",description = "retrieves all the polls from the database")
     public ResponseEntity<List<Poll>> getAllPolls(){
         List<Poll> polls = pollRepository.findAll(Sort.by("title", Sort.Direction.Ascending)).list();
 		return new ResponseEntity<>(polls, HttpStatus.OK);
@@ -49,10 +51,24 @@ public class PollRessource{
 
     @PostMapping("/polls")
 	@Transactional
-	public ResponseEntity<Poll> createPoll(@Valid @RequestBody Poll poll) {
-		pollRepository.persist(poll);
-		return new ResponseEntity<>(poll, HttpStatus.CREATED);
+    @Operation(summary = "Creates a Poll",description = "creates a new poll in the database")
+	public ResponseEntity<Poll> createPoll(@Valid @RequestBody PollDTO poll) {
+		pollRepository.persist(poll.toPoll());
+		return new ResponseEntity<>(poll.toPoll(), HttpStatus.CREATED);
 	}
+
+    /*@GetMapping("/{id}")
+	@Transactional
+    @Operation(summary = "retrieves a Poll by its id",description = "gets the poll corresponding to the id specified in the database")
+	public ResponseEntity<Poll> getPollByID(@PathParam("test") long id) {
+		Poll p = this.pollRepository.findById(id);
+        if(p.equals(null)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+		return new ResponseEntity<>(p, HttpStatus.FOUND);
+	}*/
+
+
 
 
 }
