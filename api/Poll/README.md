@@ -24,7 +24,8 @@ Everything is reacheable from "/api/poll"
 #### Get
 > "/all" : return a list of all polls created
 #### Post
-> "/polls" : creates a new poll in the database and returns it
+> "/polls" : creates a new poll in the database and returns it<br>
+> example : curl -H "Content-Type: application/json" -X POST -d '{"title":"test"}' http://localhost:8080/api/poll/polls
 
 
 
