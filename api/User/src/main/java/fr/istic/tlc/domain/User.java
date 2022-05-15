@@ -5,31 +5,40 @@ import java.nio.charset.StandardCharsets;
 import javax.persistence.*;
 
 import com.google.common.hash.Hashing;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
+@Schema(name="User")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
+    
+    @Column(name="username")
     private String username;
-    private String mail;
+    @Column(name="email")
+    private String email;
+    @Column(name="password")
     private String password;
 
     public User(){}
     
-    public User(String username, String mail, String password){
+    public User(String username, String email, String password){
         this.username=username;
-        this.mail=mail;
+        this.email=email;
         this.password=Hashing.sha256().hashString(password+"secret_pepper", StandardCharsets.UTF_8).toString();
     }
 
-    public String getMail(){
-        return mail;
+    public String getEmail(){
+        return email;
     }
 
-    public void setMail(String mail){
-        this.mail=mail;
+    public void setEmail(String email){
+        this.email=email;
     }
 
     public Long getId(){
