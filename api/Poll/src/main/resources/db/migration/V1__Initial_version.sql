@@ -19,16 +19,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `user`
+-- Base de données :  `poll`
 --
 CREATE DATABASE IF NOT EXISTS `poll` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE `poll`;
-
--- --------------------------------------------------------
-
-
-
-
 
 
 -- --------------------------------------------------------
@@ -43,51 +37,18 @@ CREATE TABLE `hibernate_sequence` (
 
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(15),
-(15),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1);
+(0);
  
-
-
-
--- --------------------------------------------------------
-
-
-
 -- --------------------------------------------------------
 
 --
--- Structure de la table `User`
+-- Structure de la table `poll`
 --
 
 CREATE TABLE `Poll` (
   `id` bigint NOT NULL,
   `title` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Index pour les tables déchargées
---
-
 
 
 --
@@ -96,11 +57,4 @@ CREATE TABLE `Poll` (
 ALTER TABLE `Poll`
   ADD PRIMARY KEY (`id`);
 
---
--- Contraintes pour les tables déchargées
---
 
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

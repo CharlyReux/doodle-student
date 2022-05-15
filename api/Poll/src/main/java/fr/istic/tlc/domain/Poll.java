@@ -6,20 +6,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 
 @Entity
-@Schema(name="PollDTO",description="Poll representation to create")
+@Schema(name="Poll",description="Poll representation to create")
 public class Poll {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
     @NotBlank
     @Schema(title="Poll Title")
     private String title;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Poll(){}
 
@@ -29,5 +36,9 @@ public class Poll {
 
     public String getTitle(){
         return title;
+    }
+
+    public Long getId(){
+        return id;
     }
 }

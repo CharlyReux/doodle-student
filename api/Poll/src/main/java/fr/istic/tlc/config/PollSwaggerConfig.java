@@ -1,3 +1,4 @@
+package fr.istic.tlc.config;
 import javax.ws.rs.core.Application;
 
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
