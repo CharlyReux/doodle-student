@@ -43,28 +43,7 @@ CREATE TABLE `hibernate_sequence` (
 
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(15),
-(15),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1),
-(1);
+(0);
  
 
 
@@ -82,7 +61,7 @@ INSERT INTO `hibernate_sequence` (`next_val`) VALUES
 CREATE TABLE `User` (
   `id` bigint NOT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `mail` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

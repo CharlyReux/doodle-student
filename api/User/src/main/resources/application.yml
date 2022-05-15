@@ -13,5 +13,5 @@ quarkus:
     path : /swagger
   swagger-ui:
     always-include: true
-    path: /swagger-ui.html
+    path: /swagger-ui-user
   
