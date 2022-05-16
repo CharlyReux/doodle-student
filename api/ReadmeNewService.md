@@ -85,7 +85,6 @@ public class ServiceSwaggerConfig {
     
 }
 ```
-Il faut maintenant changer le nom "Service" par le nom de votre service.
  
 Enfin dans src/main/java/istic/tlc, il faut au moins 3 dossiers :
 - un dossier "dao", où vous mettrez le fichier repository
