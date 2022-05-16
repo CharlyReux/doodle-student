@@ -8,8 +8,9 @@ Pour créer un nouveau service, il faut faire la commande suivante en changeant 
     -DprojectArtifactId=ServiceName 
     
 ```
-Il faut tout d'abords créer un fichier docker-compose.yaml dans la racine du service.
+Il faut tout d'abord créer un fichier docker-compose.yaml dans la racine du service.
 Ensuite pour la configuration de la base de données, il faut ajouter dans le docker-compose.yaml :
+Il faut changer dbService par le nom de la base de données du service. Il faut aussi changer les variables dans la partie "environment". Enfin dans "Healthcheck", dans "test", dans '-p root', il faut changer "root" par le mot de passe root que vous avez mis.
 ```yaml
 version: "3.8"
 services:
@@ -28,10 +29,8 @@ services:
       timeout: 10s
       retries: 5
 ```
-Il faut changer dbService par le nom de la base de données du service. Il faut aussi changer les variables dans la partie "environment". Enfin dans "Healthcheck", dans "test",
-dans '-p root', il faut changer "root" par le mot de passe root que vous avez mis.
 
-Toujours dans le docker-compose.yaml, il faut ajouter où serviceName est le nomde votre service et dbService est le nom de la base de données initialisée dans ce même fichier :
+Toujours dans le docker-compose.yaml, il faut ajouter le code suivant, où serviceName est le nom de votre service et dbService est le nom de la base de données initialisée dans ce même fichier :
 ```yaml
   user:
     image: quarkus/serviceName:latest
@@ -42,9 +41,8 @@ Toujours dans le docker-compose.yaml, il faut ajouter où serviceName est le nom
       - "8080:8080"
     restart: on-failure
  ```
- Ensuite dans le dossier src/main/resources, il faut supprimer le fichier application.properties et créer un nouveau fichier application.yaml.
- Dans ce fichier il faut ajouter, où dans datasource le username et le password sont ceux définis précédement, pour l'url il faut changer dbService par le nom de votre base de données
- et enfin dans dans le path de swagger-ui, changez service par le nom de votre service:
+
+Ensuite dans le dossier src/main/resources, dans le fichier "application.yml", il faut ajouter, où dans la partie datasource,  username est la valeur de MYSQL_USER et password est la valeur de MYSQL_PASSWORD,définis précédement. Pour l'url il faut changer dbService par le nom de votre base de données, et enfin dans dans le path de swagger-ui, changez "service" par le nom de votre service:
  ```yaml
  quarkus:
   datasource:
@@ -64,8 +62,8 @@ Toujours dans le docker-compose.yaml, il faut ajouter où serviceName est le nom
     path: /swagger-ui-service
   ```
   
-  Enfin dans src/main/java/istic/tlc, il faut ajouter un dossier "config" et y créer un fichier ServiceNameSwaggerConfig.java en remplaçant ServiceName par le nom de votre service.
-  Dedans ajoutez le code suivant, cela va permettre d'initialiser la page swagger-ui :
+Enfin dans src/main/java/istic/tlc, il faut ajouter un dossier "config" et y créer un fichier ServiceNameSwaggerConfig.java en remplaçant ServiceName par le nom de votre service.
+Dedans ajoutez le code suivant, cela va permettre d'initialiser la page swagger-ui :
   ```java
 package fr.istic.tlc.config;
 import javax.ws.rs.core.Application;
@@ -89,3 +87,7 @@ public class ServiceSwaggerConfig {
 ```
 Il faut maintenant changer le nom "Service" par le nom de votre service.
  
+Enfin dans src/main/java/istic/tlc, il faut au moins 3 dossiers :
+- un dossier "dao", où vous mettrez le fichier repository
+- un dossier "domain", où vous mettrez le(s) entity(ies)
+- un dossier "resources", qui n'est pas le même que celui dans main/resources, où vous mettrez le(s) fichier(s) avec les apis
