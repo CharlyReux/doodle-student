@@ -8,6 +8,14 @@ Pour créer un nouveau service, il faut faire la commande suivante en changeant 
     -DprojectArtifactId=ServiceName 
     
 ```
+Dans le fichier POM.xml, retirez la dépendance resteasy-reactive-jackson
+```xml
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+</dependency>
+```
+
 Il faut tout d'abord créer un fichier docker-compose.yaml dans la racine du service.
 Ensuite pour la configuration de la base de données, il faut ajouter dans le docker-compose.yaml :
 Il faut changer dbService par le nom de la base de données du service. Il faut aussi changer les variables dans la partie "environment". Enfin dans "Healthcheck", dans "test", dans '-p root', il faut changer "root" par le mot de passe root que vous avez mis.
