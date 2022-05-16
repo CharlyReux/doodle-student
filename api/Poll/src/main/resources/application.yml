@@ -11,3 +11,4 @@ quarkus:
     baseline-on-migrate: true
   swagger-ui:
     always-include: true
+    path: /swagger-ui-Poll

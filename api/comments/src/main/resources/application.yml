@@ -1,6 +1,14 @@
-greeting:
-  message: "hello"
 quarkus:
-  hibernate-orm:
-    database:
-      generation: "drop-and-create"
+  datasource:
+    db-kind: mysql
+    username: comment_user
+    password: comment_pswd
+    jdbc:
+      url: jdbc:mysql://commentdb:3307/comment?useUnicode=true&serverTimezone=Europe/Paris
+      driver: com.mysql.cj.jdbc.Driver
+  flyway:
+    migrate-at-start: true
+    baseline-on-migrate: true
+  swagger-ui:
+    always-include: true
+    path: /swagger-ui-Comment
