@@ -1,6 +1,15 @@
 package fr.istic.tlc.ressources;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -22,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 
 
+
 import fr.istic.tlc.dao.PollRepository;
 import fr.istic.tlc.domain.Poll;
 import io.quarkus.panache.common.Sort;
@@ -30,6 +40,8 @@ import io.quarkus.panache.common.Sort;
 @RestController
 @RequestMapping("/api/poll")
 public class PollRessource{
+
+	
 
     @Autowired
     PollRepository pollRepository;
@@ -57,9 +69,27 @@ public class PollRessource{
     @PostMapping("/polls")
 	@Transactional
     @Operation(summary = "Creates a Poll",description = "creates a new poll in the database")
-	public ResponseEntity<Poll> createPoll(@Valid @RequestBody Poll poll) {
+	public ResponseEntity<Poll> createPoll(@Valid @RequestBody Poll poll) throws IOException {
 		pollRepository.persist(poll);
+
+		createComment();
+
 		return new ResponseEntity<>(poll, HttpStatus.CREATED);
+	}
+
+	public void createComment() throws IOException{
+		URL url = new URL("http://localhost://8081/api/comment/comments");
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("POST");
+
+		Map<String, String> parameters = new HashMap<>();
+		parameters.put("content", "testcontent");
+
+		con.setDoOutput(true);
+		DataOutputStream out = new DataOutputStream(con.getOutputStream());
+		out.writeBytes(ParameterStringBuilder.getParamsString(parameters));
+		out.flush();
+		out.close();
 	}
 
     @GetMapping("/{id}")
@@ -105,6 +135,25 @@ public class PollRessource{
 		pollRepository.deleteById(poll.getId());
 		return new ResponseEntity<>(poll, HttpStatus.OK);
 	}
-
+	
+	public static class ParameterStringBuilder {
+		public static String getParamsString(Map<String, String> params) 
+		  throws UnsupportedEncodingException{
+			StringBuilder result = new StringBuilder();
+	
+			for (Map.Entry<String, String> entry : params.entrySet()) {
+			  result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+			  result.append("=");
+			  result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+			  result.append("&");
+			}
+	
+			String resultString = result.toString();
+			return resultString.length() > 0
+			  ? resultString.substring(0, resultString.length() - 1)
+			  : resultString;
+		}
+	}
 
 }
+
