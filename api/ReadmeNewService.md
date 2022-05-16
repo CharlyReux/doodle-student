@@ -17,7 +17,7 @@ Dans le fichier POM.xml, retirez la dépendance resteasy-reactive-jackson
 ```
 
 Il faut tout d'abord créer un fichier docker-compose.yaml dans la racine du service.
-Ensuite pour la configuration de la base de données, il faut ajouter dans le docker-compose.yaml :
+Ensuite pour la configuration de la base de données, si vous en avez besoin, il faut ajouter dans le docker-compose.yaml :
 Il faut changer dbService par le nom de la base de données du service. Il faut aussi changer les variables dans la partie "environment". Enfin dans "Healthcheck", dans "test", dans '-p root', il faut changer "root" par le mot de passe root que vous avez mis.
 ```yaml
 version: "3.8"
@@ -40,7 +40,7 @@ services:
 
 Toujours dans le docker-compose.yaml, il faut ajouter le code suivant, où serviceName est le nom de votre service et dbService est le nom de la base de données initialisée dans ce même fichier :
 ```yaml
-  user:
+  serviceName:
     image: quarkus/serviceName:latest
     depends_on:
       dbService:
@@ -95,6 +95,18 @@ public class ServiceSwaggerConfig {
 ```
  
 Enfin dans src/main/java/istic/tlc, il faut créer au moins 3 dossiers :
-- un dossier "dao", où vous mettrez le fichier repository
+- un dossier "dao", où vous mettrez le fichier repository pour la base de donnée (si nécessaire) avec un fichier ServiceRepository.java qui ressemble à cela où "service" est le nom de votre service :
+```java
+package fr.istic.tlc.dao;
+
+import javax.enterprise.context.ApplicationScoped;
+
+import fr.istic.tlc.domain.Service;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+
+@ApplicationScoped
+public class ServiceRepository implements PanacheRepository<User> {
+}
+```
 - un dossier "domain", où vous mettrez le(s) entity(ies)
 - un dossier "resources", qui n'est pas le même que celui dans main/resources, où vous mettrez le(s) fichier(s) avec les apis
