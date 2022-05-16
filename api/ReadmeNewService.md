@@ -4,8 +4,9 @@ Pour créer un nouveau service, il faut faire la commande suivante en changeant 
 ```sh
     mvn io.quarkus:quarkus-maven-plugin:2.9.0.Final:create \
     -DprojectGroupId=fr.istic.tlc \
-    -DprojectArtifactId=ServiceName \
-    -Dextensions="arc,flyway,config-yaml,agroal,jackson,resteasy-jackson,spring-web,jdbc-mysql,hibernate-orm-rest-data-panache,hibernate-orm,smallrye-openapi"
+    -Dextensions="arc,flyway,config-yaml,agroal,jackson,resteasy-jackson,spring-web,jdbc-mysql,hibernate-orm-rest-data-panache,hibernate-orm,smallrye-openapi" \
+    -DprojectArtifactId=ServiceName 
+    
 ```
 Il faut tout d'abords créer un fichier docker-compose.yaml dans la racine du service.
 Ensuite pour la configuration de la base de données, il faut ajouter dans le docker-compose.yaml :
