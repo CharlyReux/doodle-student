@@ -30,22 +30,13 @@ public class UserResource {
 	@Autowired
     UserRepository userRepository;
 
-	@GetMapping("/testApi")
-	public String testApi(){
-		return "this endpoint works";
-	}
-
-	@PostMapping("/postbody")
-    public String postBody(@RequestBody String fullName) {
-        return "Hello " + fullName;
-    }
-
     @GetMapping("/all")
 	public ResponseEntity<List<User>> getUsers() {
 		return new ResponseEntity<>(userRepository.findAll().list(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
+	@Transactional
 	public ResponseEntity<User> getUserById(@PathVariable long id){
 		User user = userRepository.findById(id);
 
@@ -83,6 +74,7 @@ public class UserResource {
 	}
 
 	@DeleteMapping("delete/{id}")
+	@Transactional
 	public ResponseEntity<User> deleteUserById(@PathVariable long id){
 		User user= userRepository.findById(id);
 		//On vérife que le user existe
