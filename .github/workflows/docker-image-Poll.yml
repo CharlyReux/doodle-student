@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Poll service Docker Image CI
 
 on:
   push:
@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: cd api/Poll && ./mvnw package && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/Poll-jvm .
+      run: cd api/Poll && ./mvnw package && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/poll-jvm .
