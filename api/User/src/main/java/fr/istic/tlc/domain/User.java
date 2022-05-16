@@ -6,7 +6,8 @@ import javax.persistence.*;
 
 import com.google.common.hash.Hashing;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.swagger.v3.oas.annotations.*;
 
 @Entity
 @Schema(name="User")
@@ -14,10 +15,9 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
+    @Schema(readOnly = true)
     private Long id;
 
-    
     @Column(name="username")
     private String username;
     @Column(name="email")
