@@ -38,7 +38,7 @@ services:
       retries: 5
 ```
 
-Toujours dans le docker-compose.yaml, il faut ajouter le code suivant, où serviceName est le nom de votre service et dbService est le nom de la base de données initialisée dans ce même fichier :
+Toujours dans le docker-compose.yaml, il faut ajouter le code suivant, où "serviceName" est le nom de votre service et dbService est le nom de la base de données initialisée dans ce même fichier :
 ```yaml
   serviceName:
     image: quarkus/serviceName:latest
