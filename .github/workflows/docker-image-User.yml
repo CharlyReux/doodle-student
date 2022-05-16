@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: User service Docker Image CI
 
 on:
   push:
@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: cd api/User && ./mvnw package && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/code-with-quarkus-jvm .
+      run: cd api/User && ./mvnw package && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/user-jvm .
