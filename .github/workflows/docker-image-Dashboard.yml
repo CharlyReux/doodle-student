@@ -1,4 +1,4 @@
-name: Dashbord service Docker Image CI
+name: Dashboard service Docker Image CI
 
 on:
   push:
