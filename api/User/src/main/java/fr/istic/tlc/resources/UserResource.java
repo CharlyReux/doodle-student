@@ -52,8 +52,8 @@ public class UserResource {
 	@Transactional
 	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
 		// On sauvegarde l'utilisateur dans la bdd
-		userRepository.persist(user);
-		return new ResponseEntity<>(user, HttpStatus.CREATED);
+		;
+		return new ResponseEntity<>(userRepository.persist(user), HttpStatus.CREATED);
 	}
 
 	@PutMapping("update/{id}")
