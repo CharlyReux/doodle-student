@@ -94,7 +94,7 @@ public class ServiceSwaggerConfig {
 }
 ```
  
-Enfin dans src/main/java/istic/tlc, il faut au moins 3 dossiers :
+Enfin dans src/main/java/istic/tlc, il faut créer au moins 3 dossiers :
 - un dossier "dao", où vous mettrez le fichier repository
 - un dossier "domain", où vous mettrez le(s) entity(ies)
 - un dossier "resources", qui n'est pas le même que celui dans main/resources, où vous mettrez le(s) fichier(s) avec les apis
