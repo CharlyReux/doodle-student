@@ -69,7 +69,7 @@ Ensuite dans le dossier src/main/resources, dans le fichier "application.yml", i
     always-include: true
     path: /swagger-ui-service
   ```
-  
+Vous pouvez maintenant accéder à la page swagger de votre service via le endpoint "/swagger-ui-service".
 Enfin dans src/main/java/istic/tlc, il faut ajouter un dossier "config" et y créer un fichier ServiceNameSwaggerConfig.java en remplaçant ServiceName par le nom de votre service. 
 Dedans ajoutez le code suivant, cela va permettre d'initialiser la page swagger-ui, il faut changer le nom "Service" par le nom de votre service. :
   ```java
