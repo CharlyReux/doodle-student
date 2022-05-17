@@ -12,3 +12,7 @@ quarkus:
   swagger-ui:
     always-include: true
     path: /swagger-ui-Poll
+  rest-client:
+    comment-api:
+      url: http://commentservice:8080
+      scope: javax.inject.Singleton

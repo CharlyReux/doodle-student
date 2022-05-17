@@ -1,13 +1,8 @@
 package fr.istic.tlc.ressources;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +13,7 @@ import javax.ws.rs.PathParam;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,8 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 
-
-
+import fr.istic.tlc.client.comment;
+import fr.istic.tlc.client.commentsProxy;
 import fr.istic.tlc.dao.PollRepository;
 import fr.istic.tlc.domain.Poll;
 import io.quarkus.panache.common.Sort;
@@ -41,28 +37,37 @@ import io.quarkus.panache.common.Sort;
 @RequestMapping("/api/poll")
 public class PollRessource{
 
-	
+	@RestClient
+	commentsProxy commentProxy;
 
     @Autowired
     PollRepository pollRepository;
 
-    Poll p = new Poll("test");
-
-    @GetMapping("json/{test}")
-    public Poll getPollTest(@PathParam("test") String t){
-        return p;
+	@GetMapping("/helloComment")
+    public String getCommentTest(){
+        return commentProxy.getcommentTest();
     }
 
-    @GetMapping("/hello")
-    public String getPollTest(){
-        return "hello world!";
+	//Comment CRUD
+	@GetMapping("/comment/all")
+    @Operation(summary = "Gets all Comments",description = "retrieves all the comments from the comment database")
+    public ResponseEntity<List<comment>> getAllcomments(){
+		return new ResponseEntity<>(commentProxy.getAllcomments(), HttpStatus.OK);
     }
+
+	@PostMapping("/comment/comments")
+	@Operation(summary = "creates a Comments",description = "Creates a new comment in the comment database")
+	public ResponseEntity<comment> createComment(@Valid @RequestBody comment comment){
+		return new ResponseEntity<>(commentProxy.createComment(comment), HttpStatus.OK);
+	}
+
+
+	//Poll CRUD
 
     @GetMapping("/all")
     @Operation(summary = "Gets all Polls",description = "retrieves all the polls from the database")
     public ResponseEntity<List<Poll>> getAllPolls(){
         List<Poll> polls = pollRepository.findAll(Sort.by("title", Sort.Direction.Ascending)).list();
-        System.out.println(polls.get(0).getId());
 		return new ResponseEntity<>(polls, HttpStatus.OK);
     }
 
@@ -71,25 +76,7 @@ public class PollRessource{
     @Operation(summary = "Creates a Poll",description = "creates a new poll in the database")
 	public ResponseEntity<Poll> createPoll(@Valid @RequestBody Poll poll) throws IOException {
 		pollRepository.persist(poll);
-
-		createComment();
-
 		return new ResponseEntity<>(poll, HttpStatus.CREATED);
-	}
-
-	public void createComment() throws IOException{
-		URL url = new URL("http://localhost://8081/api/comment/comments");
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("POST");
-
-		Map<String, String> parameters = new HashMap<>();
-		parameters.put("content", "testcontent");
-
-		con.setDoOutput(true);
-		DataOutputStream out = new DataOutputStream(con.getOutputStream());
-		out.writeBytes(ParameterStringBuilder.getParamsString(parameters));
-		out.flush();
-		out.close();
 	}
 
     @GetMapping("/{id}")
