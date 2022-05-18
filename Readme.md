@@ -18,8 +18,13 @@ For french native speaker that wants to follow the course. The course web page i
 
 ### Front
 - Make the Login and Register Section "how to make a form in angular"
-- change the function calls to retrieve user by id and not by slug (poll-service.service)
-- display the link of the polls in the dashboard
+- Change the function calls to retrieve user by id and not by slug (poll-service.service)
+- Automatically fill the fields of the poll in which the user is participating when he is logged in
 ### Back
 - Make the Dashboard Service(check in front/poll-service.service for the enpoints)
 - probably necessary to make a class dashboardPoll to send answers to the front
+- Idea for dashboard:
+>> Duplicate the User data and the Poll data with onetomany relationships between the two<br>
+>> the dashboard will have a user entity which will have two list of polls(one for admin and one for user)<br>
+>> When the front calls "createPoll" the api gateway sends data to the poll and to the dashboard to add the poll to the Admin list (and add the user and the poll if it dosen't already exist)<br>
+>> Same with the user when the function updateChoice4user is called by the front
