@@ -28,8 +28,13 @@ import org.springframework.http.HttpStatus;
 
 import fr.istic.tlc.client.comment;
 import fr.istic.tlc.client.commentsProxy;
+import fr.istic.tlc.dao.ChoiceRepository;
 import fr.istic.tlc.dao.PollRepository;
+import fr.istic.tlc.dao.UserRepository;
+import fr.istic.tlc.domain.Choice;
+import fr.istic.tlc.domain.ChoiceUser;
 import fr.istic.tlc.domain.Poll;
+import fr.istic.tlc.domain.User;
 import io.quarkus.panache.common.Sort;
 
 
@@ -42,6 +47,13 @@ public class PollRessource{
 
     @Autowired
     PollRepository pollRepository;
+
+	@Autowired
+	UserRepository userRep;
+
+	@Autowired
+	ChoiceRepository choiceRep;
+
 
 	@GetMapping("/helloComment")
     public String getCommentTest(){
@@ -74,7 +86,7 @@ public class PollRessource{
     @PostMapping("/polls")
 	@Transactional
     @Operation(summary = "Creates a Poll",description = "creates a new poll in the database")
-	public ResponseEntity<Poll> createPoll(@Valid @RequestBody Poll poll) throws IOException {
+	public ResponseEntity<Poll> createPoll(@Valid @RequestBody Poll poll) {
 		pollRepository.persist(poll);
 		return new ResponseEntity<>(poll, HttpStatus.CREATED);
 	}
@@ -122,25 +134,37 @@ public class PollRessource{
 		pollRepository.deleteById(poll.getId());
 		return new ResponseEntity<>(poll, HttpStatus.OK);
 	}
-	
-	public static class ParameterStringBuilder {
-		public static String getParamsString(Map<String, String> params) 
-		  throws UnsupportedEncodingException{
-			StringBuilder result = new StringBuilder();
-	
-			for (Map.Entry<String, String> entry : params.entrySet()) {
-			  result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-			  result.append("=");
-			  result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-			  result.append("&");
-			}
-	
-			String resultString = result.toString();
-			return resultString.length() > 0
-			  ? resultString.substring(0, resultString.length() - 1)
-			  : resultString;
+
+	//User Endpoints
+
+	@PostMapping("/choiceuser")
+	@Transactional
+	public User addChoiceUser(ChoiceUser userChoice) {
+		User u = this.userRep.find("mail", userChoice.getMail()).firstResult();
+		if (u == null) {
+			u = new User();
+			u.setUsername(userChoice.getUsername());
+			u.setMail(userChoice.getMail());
+			this.userRep.persist(u);
 		}
+		
+		//TODO add mealPref
+		
+		for (Long choiceId : userChoice.getChoices()) {
+			Choice c = this.choiceRep.findById(choiceId);
+			c.addUser(u);
+			this.choiceRep.persistAndFlush(c);
+		}
+		return u;
 	}
+
+	//choice endpoints
+	@GetMapping("/pollChoices")
+	@Transactional
+	public List<Choice> addChoiceUser() {
+		return this.choiceRep.findAll().list();
+	}
+
 
 }
 

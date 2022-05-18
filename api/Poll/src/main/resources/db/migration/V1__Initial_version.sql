@@ -47,7 +47,10 @@ INSERT INTO `hibernate_sequence` (`next_val`) VALUES
 
 CREATE TABLE `Poll` (
   `id` bigint NOT NULL,
-  `title` varchar(255) DEFAULT NULL
+  `title` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `createdAt` datetime(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -58,3 +61,58 @@ ALTER TABLE `Poll`
   ADD PRIMARY KEY (`id`);
 
 
+-- -------------------------------------------------------
+--
+-- Structure de la table `Choice`
+--
+
+CREATE TABLE `Choice` (
+  `id` bigint NOT NULL,
+  `endDate` datetime(6) DEFAULT NULL,
+  `startDate` datetime(6) DEFAULT NULL,
+  `pollID` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Index pour la table `Choice`
+--
+ALTER TABLE `Choice`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK9pb9a172pl46be48ythes94cq` (`pollID`);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `choice_user`
+--
+
+CREATE TABLE `choice_user` (
+  `choice_id` bigint NOT NULL,
+  `user_id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+--
+-- Index pour la table `choice_user`
+--
+ALTER TABLE `choice_user`
+  ADD KEY `FK2m8oie88bmgxt3sm87i1mn1ao` (`user_id`),
+  ADD KEY `FK9s1mrftmuef6lcexnlh89qgdn` (`choice_id`);
+
+-- -------------------------------------------------
+--
+-- Structure de la table `User`
+--
+
+CREATE TABLE `User` (
+  `id` bigint NOT NULL,
+  `mail` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+--
+-- Index pour la table `User`
+--
+ALTER TABLE `User`
+  ADD PRIMARY KEY (`id`);
