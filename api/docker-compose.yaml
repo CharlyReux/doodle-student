@@ -1,0 +1,53 @@
+version: '3.8'
+services:
+
+  mybunkerized:
+    image: bunkerity/bunkerized-nginx
+    ports:
+      - 80:8080
+      - 443:8443
+    volumes:
+      - ./certs:/etc/letsencrypt
+      - ./server-confs:/server-confs:ro
+      - ./www:/www:ro
+    environment:
+#      - SERVER_NAME=doodle.gl.fr
+      - AUTO_LETS_ENCRYPT=no
+      - USE_REVERSE_PROXY=yes
+    networks:
+      - services-net
+    depends_on:
+      - user
+
+  user:
+    image: quarkus/user-jvm
+    networks:
+      - services-net
+    depends_on:
+      db_User:
+        condition: service_healthy
+    restart: on-failure
+    ports : 
+      - "8080:8081"
+
+  db_User:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_User
+      - MYSQL_DATABASE=user
+      - MYSQL_USER=user_user
+      - MYSQL_PASSWORD=user_pswd
+    healthcheck:
+      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root_User' ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - services-net
+
+
+
+networks:
+  services-net:
