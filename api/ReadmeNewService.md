@@ -4,8 +4,8 @@ Pour créer un nouveau service, il faut faire la commande suivante en changeant 
 ```sh
     mvn io.quarkus:quarkus-maven-plugin:2.9.0.Final:create \
     -DprojectGroupId=fr.istic.tlc \
-    -Dextensions="arc,flyway,config-yaml,agroal,jackson,resteasy-jackson,spring-web,jdbc-mysql,hibernate-orm-rest-data-panache,hibernate-orm,smallrye-openapi" \
-    -DprojectArtifactId=ServiceName 
+    -DprojectArtifactId=ServiceName \
+    -Dextensions="arc,flyway,config-yaml,agroal,jackson,resteasy-jackson,spring-web,jdbc-mysql,hibernate-orm-rest-data-panache,hibernate-orm,smallrye-openapi"
     
 ```
 Dans le fichier POM.xml, retirez la dépendance resteasy-reactive-jackson

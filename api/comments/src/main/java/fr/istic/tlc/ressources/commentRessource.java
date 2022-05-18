@@ -39,30 +39,23 @@ public class commentRessource{
     @Autowired
     commentRepository commentRepo;
 
-    comment p = new comment("test");
-
-    @GetMapping("json/{test}")
-    public comment getcommentTest(@PathParam("test") String t){
-        return p;
-    }
 
     @GetMapping("/hello")
     public String getcommentTest(){
-        return "hello world!";
+        return "hello comment!";
     }
 
     @GetMapping("/all")
     @Operation(summary = "Gets all comments",description = "retrieves all the comments from the database")
     public ResponseEntity<List<comment>> getAllcomments(){
         List<comment> comments = commentRepo.findAll(Sort.by("content", Sort.Direction.Ascending)).list();
-        System.out.println(comments.get(0).getId());
 		return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
     @PostMapping("/comments")
 	@Transactional
     @Operation(summary = "Creates a comment",description = "creates a new comment in the database")
-	public ResponseEntity<comment> createcomment(@Valid @RequestBody comment comment) {
+	public ResponseEntity<comment> createComment(@Valid @RequestBody comment comment) {
 		commentRepo.persist(comment);
 		return new ResponseEntity<>(comment, HttpStatus.CREATED);
 	}
@@ -80,7 +73,7 @@ public class commentRessource{
 
     @PutMapping("/comments/{id}")
 	@Transactional
-    @Operation(summary = "Updates th comment with th id specified",description = "gets the comment corresponding to the id specified in the database and modifies it with the body specified")
+    @Operation(summary = "Updates the comment with th id specified",description = "gets the comment corresponding to the id specified in the database and modifies it with the body specified")
 	public ResponseEntity<Object> updatecommentById(@Valid @RequestBody comment comment,@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable long id) {
 		// On vérifie que le comment existe
 		comment optionalcomment = commentRepo.findById(id);
