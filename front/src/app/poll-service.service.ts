@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Poll, PollChoice, User, ChoiceUser, PollCommentElement, EventDTOAndSelectedChoice } from './model/model';
+import { Poll, PollChoice, User, ChoiceUser, PollCommentElement, EventDTOAndSelectedChoice, dashBoardPolls } from './model/model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -53,5 +53,10 @@ export class PollService {
     return this.http.get<EventDTOAndSelectedChoice>('/api/ics/polls/' + slug + '/' + btoa(ics));
   }
 
+  //Ajouter les Fonctions du dashBoard
+
+  public getAllPollsFromUser(id:number): Observable<dashBoardPolls>{
+    return this.http.get<dashBoardPolls>('/api/dashboard/polls/'+id);
+  } 
 
 }

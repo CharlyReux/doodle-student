@@ -12,6 +12,8 @@ import javax.validation.constraints.NotBlank;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.annotations.CreationTimestamp;
 
+import fr.istic.tlc.services.Utils;
+
 
 @Entity
 @Schema(name="Poll",description="Poll representation to create")
@@ -29,8 +31,11 @@ public class Poll {
     private String location;
     private String description;
 
+    private String urlSondage;
+    private String urlSondageAdmin;
 
-
+    private String slug = Utils.getInstance().generateSlug(24);
+    private String slugAdmin = Utils.getInstance().generateSlug(24);
 
     @CreationTimestamp
     private Date createdAt;
@@ -43,10 +48,12 @@ public class Poll {
 
     public Poll(){}
 
-    public Poll(String title, String location, String description, List<Choice> pollChoices){
+    public Poll(String title, String location, String description,String urlSondage,String urlSondageAdmin, List<Choice> pollChoices){
         this.title = title;
         this.location = location;
         this.description = description;
+        this.urlSondage = urlSondage;
+        this.urlSondageAdmin=urlSondageAdmin;
         this.pollChoices = pollChoices;    
     }
 
@@ -93,6 +100,38 @@ public class Poll {
 
     public void setPollChoices(List<Choice> pollChoices) {
         this.pollChoices = pollChoices;
+    }
+
+    public String getUrlSondage() {
+        return urlSondage;
+    }
+
+    public void setUrlSondage(String urlSondage) {
+        this.urlSondage = urlSondage;
+    }
+
+    public String getUrlSondageAdmin() {
+        return urlSondageAdmin;
+    }
+
+    public void setUrlSondageAdmin(String urlSondageAdmin) {
+        this.urlSondageAdmin = urlSondageAdmin;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public String getSlugAdmin() {
+        return slugAdmin;
+    }
+
+    public void setSlugAdmin(String slugAdmin) {
+        this.slugAdmin = slugAdmin;
     }
 
     

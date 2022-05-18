@@ -15,6 +15,8 @@ export interface Poll {
  tlkURL?: string;
  updatedAt?: Date;
  clos ?: boolean;
+ urlsondage?:String;
+ urlsondageadmin?:String;
 }
 
 export interface PollChoice {
@@ -54,4 +56,9 @@ export interface EventDTO{
 export interface EventDTOAndSelectedChoice {
   eventdtos?: EventDTO[];
   selectedChoices?: number[];
+}
+
+export interface dashBoardPolls{
+  adminPoll?:Poll[];
+  userPoll?:Poll[];
 }

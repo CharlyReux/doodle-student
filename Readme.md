@@ -13,3 +13,13 @@ Three videos (in french) are available. They present:
 - and a [short code review](https://drive.google.com/file/d/1jxYNfJdtd4r_pDbOthra360ei8Z17tX_/preview) .
 
 For french native speaker that wants to follow the course. The course web page is available [here](https://hackmd.diverse-team.fr/s/SJqu5DjSD).
+
+## TODO
+
+### Front
+- Make the Login and Register Section "how to make a form in angular"
+- change the function calls to retrieve user by id and not by slug (poll-service.service)
+- display the link of the polls in the dashboard
+### Back
+- Make the Dashboard Service(check in front/poll-service.service for the enpoints)
+- probably necessary to make a class dashboardPoll to send answers to the front

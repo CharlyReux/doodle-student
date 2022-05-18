@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { CardSmallComponentComponent } from './card-small-component/card-small-component.component';
 import { HomeComponentComponent } from './home-component/home-component.component';
 import { CreatePollComponentComponent } from './create-poll-component/create-poll-component.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+
 import {StepsModule} from 'primeng/steps';
 import {MenuItem} from 'primeng/api';
 // import {FullCalendarModule} from 'primeng/fullcalendar';
@@ -40,6 +42,16 @@ import { Selecteddate4userPipePipe } from './selecteddate4user-pipe.pipe';
 import { ModalPollClosComponent } from './modal-poll-clos/modal-poll-clos.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { ShowCommentsComponent } from './show-comments/show-comments.component';
+
+import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+
+
 registerLocaleData(localeFr, 'fr');
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -59,7 +71,10 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     Selecteddate4userPipePipe,
     ModalPollClosComponent,
     TopBarComponent,
-    ShowCommentsComponent
+    ShowCommentsComponent,
+    DashboardComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +95,13 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     SelectButtonModule,
     MenubarModule,
     CheckboxModule,
-    NgbModule
+    NgbModule,
+    MatTableModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent],
