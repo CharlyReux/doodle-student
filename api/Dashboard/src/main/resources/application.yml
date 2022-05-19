@@ -1,0 +1,14 @@
+quarkus:
+  datasource:
+    db-kind: mysql
+    username: dashboard_user
+    password: dashboard_pswd
+    jdbc:
+      url: jdbc:mysql://dashboarddb:3308/dashboard?useUnicode=true&serverTimezone=Europe/Paris
+      driver: com.mysql.cj.jdbc.Driver
+  flyway:
+    clean-at-start: true
+    migrate-at-start: true
+  swagger-ui:
+    always-include: true
+    path: /swagger-ui-dashboard

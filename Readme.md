@@ -18,10 +18,11 @@ For french native speaker that wants to follow the course. The course web page i
 
 ### Front
 - Make the Login and Register Section "how to make a form in angular"
-- Change the function calls to retrieve user by id and not by slug (poll-service.service)
+- Change the function calls to retrieve user by id and not by slug (poll-service.service) or don't whatever
 - Automatically fill the fields of the poll in which the user is participating when he is logged in
+- Check how the links are made
 ### Back
-- Make the Dashboard Service(check in front/poll-service.service for the enpoints)
+- re-Make the Dashboard Service(check in front/poll-service.service for the enpoints)
 - probably necessary to make a class dashboardPoll to send answers to the front
 - Idea for dashboard:
 >> Duplicate the User data and the Poll data with onetomany relationships between the two<br>
