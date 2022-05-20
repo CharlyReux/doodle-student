@@ -1,0 +1,20 @@
+greeting:
+  message: "hello"
+quarkus:
+  hibernate-orm:
+    database:
+      generation: "drop-and-create"
+      charset: UTF-8
+      globally-quoted-identifiers: true
+    dialect:
+      storage-engine: MyISAM
+  datasource:
+    db-kind: mysql
+    username: dashboard_user
+    password: dashboard_pswd
+    jdbc:
+      url: jdbc:mysql://dashboarddb:3308/dashboard?useUnicode=true&serverTimezone=Europe/Paris
+      driver: com.mysql.cj.jdbc.Driver
+  swagger-ui:
+    always-include: true
+    path: /swagger-ui-dashboard
