@@ -122,5 +122,13 @@ public class PollCopy {
         this.slugAdmin = slugAdmin;
     }
 
+    public Long getIdTab() {
+        return idTab;
+    }
+
+    public void setIdTab(Long idTab) {
+        this.idTab = idTab;
+    }
+
     
 }
