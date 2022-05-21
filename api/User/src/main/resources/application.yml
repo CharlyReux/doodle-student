@@ -1,4 +1,6 @@
 quarkus:
+  http:
+    port: 8081
   datasource:
     db-kind: mysql
     username: user_user
@@ -9,8 +11,6 @@ quarkus:
   flyway:
     migrate-at-start: true
     baseline-on-migrate: true
-  smallrye-openapi:
-    path : /swagger
   swagger-ui:
     always-include: true
     path: /swagger-ui-user

@@ -13,3 +13,12 @@ Three videos (in french) are available. They present:
 - and a [short code review](https://drive.google.com/file/d/1jxYNfJdtd4r_pDbOthra360ei8Z17tX_/preview) .
 
 For french native speaker that wants to follow the course. The course web page is available [here](https://hackmd.diverse-team.fr/s/SJqu5DjSD).
+
+## TODO
+
+### Front
+- Make the Login and Register Section "how to make a form in angular"
+- Automatically fill the fields of the poll in which the user is participating when he is logged in
+- Check how the links are made
+### Back
+- Finish the comment (add idpoll and thing)

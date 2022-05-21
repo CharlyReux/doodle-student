@@ -4,6 +4,9 @@ import { HomeComponentComponent } from './home-component/home-component.componen
 import { CreatePollComponentComponent } from './create-poll-component/create-poll-component.component';
 import { AnswerPollComponent } from './answer-poll/answer-poll.component';
 import { AdminPollComponent } from './admin-poll/admin-poll.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
@@ -25,6 +28,18 @@ const routes: Routes = [
   {
     path: 'admin/:slugadminid',
     component: AdminPollComponent
+  },
+  {
+    path: 'board',
+    component: DashboardComponent
+  },
+  {
+    path: 'Reg',
+    component: RegisterComponent
+  },
+  {
+    path: 'log',
+    component: LoginComponent
   }
 
 

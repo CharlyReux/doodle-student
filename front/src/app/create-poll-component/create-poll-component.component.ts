@@ -218,6 +218,8 @@ export class CreatePollComponentComponent implements OnInit {
           endDate: e.end as any,
         });
       });
+      this.poll.urlSondage = window.location.protocol + '//' + window.location.host + '/answer/'
+      this.poll.urlSondageAd = window.location.protocol + '//' + window.location.host + '/admin/' 
       this.pollService.createPoll(this.poll).subscribe(p1 => {
         this.poll = p1;
         this.urlsondage = window.location.protocol + '//' + window.location.host + '/answer/' + p1.slug;

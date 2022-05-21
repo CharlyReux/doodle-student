@@ -1,0 +1,59 @@
+<div class="Container">
+    <img src="assets/flat_logo.png" alt="Logo Simba" height="50px" />
+
+    <h2>Sondages ou vous êtes admin :</h2>
+
+    <!-- Table Admin -->
+    <table mat-table [dataSource]="dataSourcead" class="styled-table">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Title">
+            <th mat-header-cell *matHeaderCellDef> Title </th>
+            <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="AdminLink">
+            <th mat-header-cell *matHeaderCellDef> AdminLink </th>
+            <td mat-cell *matCellDef="let element"> {{element.urlSondageAd + element.slugAdmin}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsAd"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsAd;"></tr>
+    </table>
+
+    <h2>Sondages ou vous êtes utilisateur :</h2>
+
+    <!-- Table Users -->
+    <table mat-table [dataSource]="dataSourceus" class="styled-table">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID. </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Title">
+            <th mat-header-cell *matHeaderCellDef> Title </th>
+            <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="UserLink">
+            <th mat-header-cell *matHeaderCellDef> UserLink </th>
+            <td mat-cell *matCellDef="let element"> {{element.urlSondage + element.slug}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsUs"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsUs;"></tr>
+    </table>
+</div>
