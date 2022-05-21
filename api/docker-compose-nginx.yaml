@@ -11,14 +11,22 @@ services:
       - ./certs:/etc/letsencrypt
       - ./server-confs:/server-confs:ro
       - ./www:/www:ro
+     # - ./nginx/global.env:/etc/nginx//global.env
     environment:
-#      - SERVER_NAME=www.example.com
-      - AUTO_LETS_ENCRYPT=no
+      - DISABLE_DEFAULT_SERVER=no
+      #- SERVER_NAME= doodle.local
+      - GENERATE_SELF_SIGNED_SSL=yes 
+      #- AUTO_LETS_ENCRYPT=yes
       - USE_REVERSE_PROXY=yes
+      - COOKIE_AUTO_SECURE_FLAG=ye
+      #- REVERSE_PROXY_URL_2=/poll
+      #- REVERSE_PROXY_HOST_2=http://app2.example.local:8080
+      
     networks:
       - services-net
     depends_on:
-      - user
+      - user_service
+     # - poll_service
 
   db_User:
     image: mysql
@@ -37,7 +45,7 @@ services:
     networks:
       - services-net
 
-  user:
+  user_service:
     image: quarkus/user-jvm:latest
     depends_on:
       db_User:
