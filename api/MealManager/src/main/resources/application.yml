@@ -1,21 +1,21 @@
 greeting:
   message: "hello"
 quarkus:
- datasource:
-   db-kind: mysql
-   username: user
-   password: pswd
-   jdbc:
-     url: jdbc:mysql://dbService:3306/user?useUnicode=true&serverTimezone=Europe/Paris
-     driver: com.mysql.cj.jdbc.Driver
- flyway:
-   migrate-at-start: true
-   baseline-on-migrate: true
- smallrye-openapi:
-   path : /swagger
- swagger-ui:
-   always-include: true
-   path: /swagger-ui-service
+  datasource:
+  db-kind: mysql
+  username: user
+  password: pswd
+  jdbc:
+    url: jdbc:mysql://dbService:3306/user?useUnicode=true&serverTimezone=Europe/Paris
+    driver: com.mysql.cj.jdbc.Driver
+  flyway:
+    migrate-at-start: true
+    baseline-on-migrate: true
+  smallrye-openapi:
+    path : /swagger
+  swagger-ui:
+    always-include: true
+    path: /swagger-ui-MealManager
   hibernate-orm:
     database:
       generation: "drop-and-create"
