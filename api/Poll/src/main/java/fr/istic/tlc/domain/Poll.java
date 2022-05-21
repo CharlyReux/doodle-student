@@ -24,18 +24,17 @@ public class Poll {
     @Schema(readOnly = true)
     private Long id;
 
-    @NotBlank
-    @Schema(title="Poll Title")
     private String title;
 
     private String location;
     private String description;
 
     private String urlSondage;
-    private String urlSondageAdmin;
+    private String urlSondageAd;
 
     private String slug = Utils.getInstance().generateSlug(24);
     private String slugAdmin = Utils.getInstance().generateSlug(24);
+    public boolean clos = false;
 
     @CreationTimestamp
     private Date createdAt;
@@ -45,15 +44,17 @@ public class Poll {
     @OrderBy("startDate ASC")
     List<Choice> pollChoices;
  
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE,CascadeType.REFRESH})
+    Choice selectedChoice;
 
     public Poll(){}
 
-    public Poll(String title, String location, String description,String urlSondage,String urlSondageAdmin, List<Choice> pollChoices){
+    public Poll(String title, String location, String description,String urlSondage,String urlSondageAd, List<Choice> pollChoices){
         this.title = title;
         this.location = location;
         this.description = description;
         this.urlSondage = urlSondage;
-        this.urlSondageAdmin=urlSondageAdmin;
+        this.urlSondageAd=urlSondageAd;
         this.pollChoices = pollChoices;    
     }
 
@@ -110,12 +111,12 @@ public class Poll {
         this.urlSondage = urlSondage;
     }
 
-    public String getUrlSondageAdmin() {
-        return urlSondageAdmin;
+    public String getUrlSondageAd() {
+        return urlSondageAd;
     }
 
-    public void setUrlSondageAdmin(String urlSondageAdmin) {
-        this.urlSondageAdmin = urlSondageAdmin;
+    public void setUrlSondageAd(String urlSondageAd) {
+        this.urlSondageAd = urlSondageAd;
     }
 
     public String getSlug() {
@@ -134,5 +135,22 @@ public class Poll {
         this.slugAdmin = slugAdmin;
     }
 
+    public boolean isClos() {
+        return clos;
+    }
+
+    public void setClos(boolean clos) {
+        this.clos = clos;
+    }
+
+    public Choice getSelectedChoice() {
+        return selectedChoice;
+    }
+
+    public void setSelectedChoice(Choice selectedChoice) {
+        this.selectedChoice = selectedChoice;
+    }
+
+    
     
 }

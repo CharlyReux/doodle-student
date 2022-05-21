@@ -77,7 +77,6 @@ public class NewPollResourceEx {
 		p.addComment(c);
 		this.pollRep.persistAndFlush(p);
 		return c;
-
 	}
 
 	@PUT
