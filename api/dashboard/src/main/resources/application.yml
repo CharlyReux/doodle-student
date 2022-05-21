@@ -1,6 +1,8 @@
 greeting:
   message: "hello"
 quarkus:
+  http:
+    port: 8082
   hibernate-orm:
     database:
       generation: "drop-and-create"
