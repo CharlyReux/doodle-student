@@ -17,8 +17,9 @@ For french native speaker that wants to follow the course. The course web page i
 ## TODO
 
 ### Front
-- Make the Login and Register Section "how to make a form in angular"
+- Sens requestd to the userservice and add the endpoints to reach them
 - Automatically fill the fields of the poll in which the user is participating when he is logged in
-- Check how the links are made
+(- Check how the links are made)
+- Add the tickboxes for the meal selection
 ### Back
 - Finish the comment (add idpoll and thing)

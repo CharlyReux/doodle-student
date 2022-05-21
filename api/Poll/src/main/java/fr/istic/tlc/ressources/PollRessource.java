@@ -80,6 +80,7 @@ public class PollRessource{
 
 	@PostMapping("/comment/{slug}")
 	@Transactional
+	@Operation(summary = "Retrieves the poll by its admin slug")
 	public comment createComment4Poll(@PathParam("slug") String slug, comment c) {
 		Poll p = pollRepository.findBySlug(slug);
 		//TODO : ajouter un comment associé à l'ID de la poll
@@ -88,6 +89,7 @@ public class PollRessource{
 
 	@Tag(name="Comment")
 	@GetMapping("polls/{slug}/comments")
+	@Operation(summary = "Retrieves all the comments associated to the poll")
     public ResponseEntity<Object> getAllCommentsFromPoll(@PathVariable String slug) {
         // On vérifie que le poll existe
        Poll optPoll = pollRepository.findBySlug(slug);
