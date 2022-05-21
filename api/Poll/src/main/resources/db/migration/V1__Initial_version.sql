@@ -50,13 +50,10 @@ CREATE TABLE `Poll` (
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
-  `createdAt` datetime(6) DEFAULT NULL,
-  `slug` varchar(255) DEFAULT NULL,
-  `slugAdmin` varchar(255) DEFAULT NULL,,
-  `urlSondage` varchar(255) DEFAULT NULL,
-  `slug` varchar(255) DEFAULT NULL,
+  `createdAt` datetime(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- -------------------------------------------------------
 
 --
 -- Index pour la table `poll`
