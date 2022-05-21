@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  dbService:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=db
+      - MYSQL_USER=use
+      - MYSQL_PASSWORD=pswd
+    healthcheck:
+      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+  MealManager:
+    image: quarkus/serviceName:latest
+    depends_on:
+      dbService:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    restart: on-failure
