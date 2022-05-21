@@ -56,7 +56,7 @@ export class PollService {
   //Ajouter les Fonctions du dashBoard
 
   public getAllPollsFromUser(id:number): Observable<dashBoardPolls>{
-    return this.http.get<dashBoardPolls>('/api/dashboard/polls/'+id);
+    return this.http.get<dashBoardPolls>('/api/dashBoard/getUserPolls/'+id);
   } 
 
 }

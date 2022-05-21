@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  dashboarddb:
+    image: mysql
+    ports:
+      - "3308:3308"
+    expose:
+      - "3308"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=dashboard
+      - MYSQL_USER=dashboard_user
+      - MYSQL_PASSWORD=dashboard_pswd
+      - MYSQL_TCP_PORT= 3308
+    healthcheck:
+      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+  dashboardservice:
+     image: quarkus/dashboard-jvm:latest
+     depends_on:
+      dashboarddb:
+        condition: service_healthy
+     ports:
+      - "8082:8080"
+     restart: on-failure
