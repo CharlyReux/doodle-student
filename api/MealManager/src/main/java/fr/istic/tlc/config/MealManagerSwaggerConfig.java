@@ -7,13 +7,13 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 @OpenAPIDefinition(
   tags = {
-          @Tag(name = "MealManager", description = "Service operations."),
+          @Tag(name = "MealManager", description = "MealManager operations."),
   },
   info = @Info(
-          title = "Service API with Quarkus",
+          title = "MealManager API with Quarkus",
           version = "0.0.1"
           )
 )
-public class ServiceSwaggerConfig {
+public class MealManagerSwaggerConfig {
   
 }
