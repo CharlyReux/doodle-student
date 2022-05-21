@@ -18,7 +18,8 @@ services:
       - GENERATE_SELF_SIGNED_SSL=yes 
       #- AUTO_LETS_ENCRYPT=yes
       - USE_REVERSE_PROXY=yes
-      - COOKIE_AUTO_SECURE_FLAG=ye
+      - COOKIE_AUTO_SECURE_FLAG=yes
+      #- MULTISITE=yes
       #- REVERSE_PROXY_URL_2=/poll
       #- REVERSE_PROXY_HOST_2=http://app2.example.local:8080
       
@@ -26,7 +27,40 @@ services:
       - services-net
     depends_on:
       - user_service
-     # - poll_service
+      #- poll_service
+      - dashboard_service
+
+
+  dashboarddb:
+    image: mysql
+    ports:
+      - "3308:3308"
+    expose:
+      - "3308"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=dashboard
+      - MYSQL_USER=dashboard_user
+      - MYSQL_PASSWORD=dashboard_pswd
+      - MYSQL_TCP_PORT= 3308
+    healthcheck:
+      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - services-net
+
+  dashboard_service:
+    image: quarkus/dashboard-jvm:latest
+    depends_on:
+      dashboarddb:
+        condition: service_healthy
+    ports:
+      - "8082:8080"
+    restart: on-failure
+    networks:
+      - services-net
 
   db_User:
     image: mysql
@@ -55,6 +89,8 @@ services:
     restart: on-failure
     networks:
       - services-net
+
+
 
 networks:
   services-net:
