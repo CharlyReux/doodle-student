@@ -17,21 +17,10 @@ public class dashboard {
 
     Long idUser;
 
-/*     @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name="dashboard_pollCopy",
-    joinColumns = @JoinColumn(name="dashboard_id"),
-    inverseJoinColumns = @JoinColumn(name="pollCopy_id")) */
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "pollCopyAdID")
     private List<pollCopy> adPolls;
 
-/*     @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "dashboard_pollCopyUser",
-            joinColumns = @JoinColumn(name = "dashboardUser_id"),
-            inverseJoinColumns = @JoinColumn(name = "pollCopyUser_id")) */
-    
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "pollCopyUsID")
     List<pollCopy> userPolls;

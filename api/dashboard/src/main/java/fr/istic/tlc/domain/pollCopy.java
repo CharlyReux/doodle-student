@@ -38,25 +38,17 @@ public class pollCopy {
     private String urlSondageAd;
 
     private String slug ;
-    private String slugAd ;
+    private String slugAdmin ;
 
-/* 	@JsonIgnore
-    @ManyToMany(mappedBy = "adPolls",cascade = CascadeType.ALL)
-    private List<dashboard> dashboardListAd = new ArrayList<dashboard>();
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "userPolls",cascade = CascadeType.ALL)
-    private List<dashboard> dashboardListUs = new ArrayList<dashboard>();
- */
     public pollCopy(){}
 
-    public pollCopy(String title, String location, String description,String urlSondage,String urlSondageAd, String slugAd, String slug){
+    public pollCopy(String title, String location, String description,String urlSondage,String urlSondageAd, String slugAdmin, String slug){
         this.title = title;
         this.location = location;
         this.description = description;
         this.urlSondage = urlSondage;
         this.urlSondageAd=urlSondageAd;
-        this.slugAd = slugAd;
+        this.slugAdmin = slugAdmin;
         this.slug = slug;
     }
 
@@ -113,12 +105,12 @@ public class pollCopy {
         this.slug = slug;
     }
 
-    public String getSlugAd() {
-        return slugAd;
+    public String getSlugAdmin() {
+        return slugAdmin;
     }
 
-    public void setSlugAd(String slugAd) {
-        this.slugAd = slugAd;
+    public void setSlugAd(String slugAdmin) {
+        this.slugAdmin = slugAdmin;
     }
 
     

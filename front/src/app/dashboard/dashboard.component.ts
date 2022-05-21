@@ -27,8 +27,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.pollService.getAllPollsFromUser(this.UserCurrentID).subscribe(allPoll=>{
       this.myPollArray = allPoll
-      this.dataSourcead = this.myPollArray.adminPoll
-      this.dataSourceus = this.myPollArray.userPoll
+      this.dataSourcead = this.myPollArray.adPolls
+      this.dataSourceus = this.myPollArray.userPolls
     }) 
   }
 

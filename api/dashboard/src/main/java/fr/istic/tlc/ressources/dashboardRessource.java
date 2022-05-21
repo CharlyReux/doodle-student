@@ -75,6 +75,11 @@ public class dashboardRessource{
 		return new ResponseEntity<>(TMPdU, HttpStatus.CREATED);
 	}
 
+    @GetMapping("/getUserPolls/{id}")
+    @Operation(summary = "retrieves all the user polls of the user")
+    public ResponseEntity<dashboard> getUserPolls(@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("id") Long idUser){
+        return new ResponseEntity<>(this.dashBoardRepository.findByIDUser(idUser),HttpStatus.OK);
+    }
 
     @GetMapping("/allDash")
     @Operation(summary = "retrieves all the dashboards")
