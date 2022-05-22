@@ -49,4 +49,8 @@ export class JWTTokenService {
         return false;
       }
     }
+
+    getToken(){
+      return this.jwtToken
+    }
 }
