@@ -1,9 +1,0 @@
-version: "3.8"
-services:
-  etherpad:
-    image: quarkus/etherpad:latest
-    depends_on:
-      dbCalendar:
-        condition: service_healthy
-    ports:
-      - "8080:8080"

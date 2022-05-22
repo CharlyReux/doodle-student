@@ -1,21 +1,6 @@
 version: "3.8"
 services:
-  dbCalendar:
-    image: mysql
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=dbCalendar
-      - MYSQL_USER=userCalendar
-      - MYSQL_PASSWORD=pswdCalendar
-    healthcheck:
-      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
-      interval: 15s
-      timeout: 10s
-      retries: 5
-
-  user:
+  calendar:
     image: quarkus/calendar:latest
     depends_on:
       dbCalendar:
