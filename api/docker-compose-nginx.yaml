@@ -13,8 +13,8 @@ services:
       - ./www:/www:ro
      # - ./nginx/global.env:/etc/nginx//global.env
     environment:
-      - DISABLE_DEFAULT_SERVER=no
-      #- SERVER_NAME= doodle.local
+      - DISABLE_DEFAULT_SERVER=yes
+      - SERVER_NAME= user.doodle.fr poll.doodle.fr dashboard.doodle.fr
       - GENERATE_SELF_SIGNED_SSL=yes 
       #- AUTO_LETS_ENCRYPT=yes
       - USE_REVERSE_PROXY=yes
@@ -27,10 +27,40 @@ services:
       - services-net
     depends_on:
       - user_service
-      #- poll_service
+      - poll_service
       - dashboard_service
 
+##################   User   #####################################
 
+  db_User:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_User
+      - MYSQL_DATABASE=user
+      - MYSQL_USER=user_user
+      - MYSQL_PASSWORD=user_pswd
+    healthcheck:
+      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root_User' ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - services-net
+
+  user_service:
+    image: quarkus/user-jvm:latest
+    depends_on:
+      db_User:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    restart: on-failure
+    networks:
+      - services-net
+
+##################   Dashboard   #####################################
   dashboarddb:
     image: mysql
     ports:
@@ -62,33 +92,7 @@ services:
     networks:
       - services-net
 
-  db_User:
-    image: mysql
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=root_User
-      - MYSQL_DATABASE=user
-      - MYSQL_USER=user_user
-      - MYSQL_PASSWORD=user_pswd
-    healthcheck:
-      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root_User' ]
-      interval: 15s
-      timeout: 10s
-      retries: 5
-    networks:
-      - services-net
-
-  user_service:
-    image: quarkus/user-jvm:latest
-    depends_on:
-      db_User:
-        condition: service_healthy
-    ports:
-      - "8081:8081"
-    restart: on-failure
-    networks:
-      - services-net
+##################   Poll   #####################################
 
   polldb:
     image: mysql
@@ -106,7 +110,6 @@ services:
       retries: 5
     networks:
       - services-net
-
 
   poll_service:
     image: quarkus/poll-jvm:latest
