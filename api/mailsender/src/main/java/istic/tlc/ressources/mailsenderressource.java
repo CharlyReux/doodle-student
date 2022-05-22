@@ -1,5 +1,3 @@
-package fr.istic.tlc.services;
-
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -13,6 +11,7 @@ import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import javax.ws.rs.Path;
 import fr.istic.tlc.domain.Poll;
 import fr.istic.tlc.domain.User;
 import io.quarkus.mailer.Mail;
@@ -35,17 +34,22 @@ import net.fortuna.ical4j.util.MapTimeZoneCache;
 import net.fortuna.ical4j.util.RandomUidGenerator;
 import net.fortuna.ical4j.util.UidGenerator;
 
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
+@Path("/api/mailsender")
 @ApplicationScoped
 public class mailsenderressource {
 
 	@Inject
 	Mailer mailer;
 
-
 	@ConfigProperty(name = "doodle.organizermail")
 	String organizermail= "test@test.fr";
 
-	public void sendASimpleEmail(Poll p,List<User> participant)  {
+    @GetMapping("/sendMail")
+	public Boolean sendASimpleEmail(@RequestBody Poll p,@RequestBody List<User> participant)  {
 		// Create a default MimeMessage object.
 		System.setProperty("net.fortuna.ical4j.timezone.cache.impl", MapTimeZoneCache.class.getName());
 
@@ -69,7 +73,7 @@ public class mailsenderressource {
 				"Un pad a été créé pour cette réunion <a [href]=\""+ p.getPadURL() + "\" target=\"_blank\">\""+ p.getPadURL() + "\"</a>.</span><BR>\n");
 		
 		mailer.send(m);
-		
+		return true;
 	}
 
 	
