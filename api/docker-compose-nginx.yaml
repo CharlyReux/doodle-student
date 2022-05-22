@@ -13,8 +13,9 @@ services:
       - ./www:/www:ro
      # - ./nginx/global.env:/etc/nginx//global.env
     environment:
-      - DISABLE_DEFAULT_SERVER=yes
-      - SERVER_NAME= user.doodle.fr poll.doodle.fr dashboard.doodle.fr
+    #TODO add PUT DELETE request
+      - DISABLE_DEFAULT_SERVER=no
+      - SERVER_NAME= doodle.localhost user.doodle.fr poll.doodle.fr dashboard.doodle.fr
       - GENERATE_SELF_SIGNED_SSL=yes 
       #- AUTO_LETS_ENCRYPT=yes
       - USE_REVERSE_PROXY=yes
@@ -22,13 +23,13 @@ services:
       #- MULTISITE=yes
       #- REVERSE_PROXY_URL_2=/poll
       #- REVERSE_PROXY_HOST_2=http://app2.example.local:8080
-      
     networks:
       - services-net
     depends_on:
       - user_service
       - poll_service
       - dashboard_service
+      - keycloak
 
 ##################   User   #####################################
 
@@ -122,6 +123,28 @@ services:
     networks:
       - services-net
 
+##################   Pad   #####################################
 
+  etherpad:
+    image: etherpad/etherpad:latest
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
+
+##################   Keycloak   #####################################
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:18.0.0
+    ports:
+      - 8080:8080
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command: start-dev
+    networks:
+      - services-net
+
+    
 networks:
   services-net:
