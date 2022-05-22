@@ -10,13 +10,13 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 public class commentTest {
 
-/*     @Test
+    @Test
     public void testHelloEndpoint() {
         given()
-          .when().get("/api/oui")
+          .when().get("/api/comment/hello")
           .then()
              .statusCode(200)
-             .body(is("hello world!")); 
-    } */
+             .body(is("hello comment!")); 
+    }
 
 }

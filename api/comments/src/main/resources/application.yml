@@ -12,3 +12,9 @@ quarkus:
   swagger-ui:
     always-include: true
     path: /swagger-ui-Comment
+
+"%test":
+  quarkus:
+    datasource:
+      jdbc:
+        url: jdbc:mysql://localhost:3307/comment?useUnicode=true&serverTimezone=Europe/Paris

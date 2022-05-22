@@ -80,19 +80,30 @@ public class PollRessource{
 
 	@PostMapping("/comment/{slug}")
 	@Transactional
-	public comment createComment4Poll(@PathParam("slug") String slug, comment c) {
+	@Operation(summary = "creates a comment for the poll with the slug")
+	public ResponseEntity<comment> createComment4Poll(@PathVariable String slug, @Valid @RequestBody comment c) {
 		Poll p = pollRepository.findBySlug(slug);
-		//TODO : ajouter un comment associé à l'ID de la poll
-		return c;
+		if(p == null){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		c.setPollID(p.getId());
+		this.commentProxy.createComment(c);
+		return new ResponseEntity<>(c,HttpStatus.OK);
 	}
 
 	@Tag(name="Comment")
 	@GetMapping("polls/{slug}/comments")
+	@Operation(summary = "Retrieves all the comments associated to the poll")
     public ResponseEntity<Object> getAllCommentsFromPoll(@PathVariable String slug) {
         // On vérifie que le poll existe
-       Poll optPoll = pollRepository.findBySlug(slug);
-    //TODO : récuperer tout les comments correspondant à l'id
-	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+       	Poll optPoll = pollRepository.findBySlug(slug);
+		if(optPoll == null){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		System.out.println(optPoll.getId());
+		
+		List<comment> Lcom = this.commentProxy.getAllCommentsFromPoll(optPoll.getId().toString());
+		return new ResponseEntity<>(Lcom,HttpStatus.OK);
     }
 
 	//Poll CRUD
@@ -244,7 +255,7 @@ public class PollRessource{
 	@Tag(name="Poll")
 	@DeleteMapping("/polls/{slug}")
 	@Transactional
-	public ResponseEntity<Poll> deletePoll(@PathVariable("slug") String slug) {
+	public ResponseEntity<Poll> deletePoll(@PathParam("slug") String slug) {
 		// On vérifie que le poll existe
 		Poll poll = pollRepository.findBySlug(slug);
 		if (poll == null) {
@@ -255,7 +266,6 @@ public class PollRessource{
 
 		// On supprime tous les commentaires du poll
 		// TODO : Ajouter un idPoll et faire une suppresion dans comment
-
 
 		// On supprime le poll de la bdd
 		pollRepository.deleteById(poll.getId());

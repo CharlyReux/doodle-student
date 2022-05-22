@@ -41,8 +41,8 @@ public class commentRessource{
 
 
     @GetMapping("/hello")
-    public String getcommentTest(){
-        return "hello comment!";
+    public ResponseEntity<String> getcommentTest(){
+        return new ResponseEntity<>("hello comment!",HttpStatus.OK);
     }
 
     @GetMapping("/all")
@@ -92,6 +92,7 @@ public class commentRessource{
 
 	@DeleteMapping("/comments/{id}")
 	@Transactional
+	@Operation(summary = "delete a comment by its id")
 	public ResponseEntity<comment> deletecommentById(@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("id") Long id) {
 		// On vérifie que le comment existe
 		comment comment = commentRepo.findById(id);
@@ -102,6 +103,19 @@ public class commentRessource{
         // On delete le comment
 		commentRepo.deleteById(comment.getId());
 		return new ResponseEntity<>(comment, HttpStatus.OK);
+	}
+
+	@Operation(summary = "gets all the comments from the poll")
+	@GetMapping("/comments/poll/{idPoll}")
+	public ResponseEntity<List<comment>> getAllCommentsFromPoll(@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("idPoll") Long id) {
+		return new ResponseEntity<>(this.commentRepo.findBypollID(id), HttpStatus.OK);
+	}
+
+	@Operation(summary = "deletes all the comments corresponding to the poll")
+	@DeleteMapping("/comments/delpoll/{idPoll}")
+	@Transactional
+	public void deleteAllCommentsFromPoll(@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("idPoll") Long id) {
+		this.commentRepo.deleteAllCommentsFromPoll(id);
 	}
 
 

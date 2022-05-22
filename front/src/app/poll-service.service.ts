@@ -53,10 +53,11 @@ export class PollService {
     return this.http.get<EventDTOAndSelectedChoice>('/api/ics/polls/' + slug + '/' + btoa(ics));
   }
 
-  //Ajouter les Fonctions du dashBoard
 
   public getAllPollsFromUser(id:number): Observable<dashBoardPolls>{
     return this.http.get<dashBoardPolls>('/api/dashBoard/getUserPolls/'+id);
   } 
+
+  
 
 }
