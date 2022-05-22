@@ -7,6 +7,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -25,7 +26,8 @@ public interface commentsProxy{
 
     @DELETE
 	@Path("/comments/{id}")
-	public comment deletecommentById(@PathVariable("id") Long id);
+    @Produces(MediaType.APPLICATION_JSON)
+	public comment deletecommentById(@PathParam("id") String id);
 	
     @GET
     @Path("/all")
@@ -37,4 +39,9 @@ public interface commentsProxy{
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/comments")
     comment createComment(@Valid @RequestBody comment comment);
+
+    @GET
+    @Path("/comments/poll/{idPoll}")
+    @Produces(MediaType.APPLICATION_JSON)
+	public List<comment> getAllCommentsFromPoll(@PathParam("idPoll") String pollID);
 }

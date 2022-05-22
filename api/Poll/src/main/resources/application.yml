@@ -1,6 +1,6 @@
 quarkus:
-  http:
-    port: 8082
+  #http:
+    #port: 8082
   datasource:
     db-kind: mysql
     username: poll_user

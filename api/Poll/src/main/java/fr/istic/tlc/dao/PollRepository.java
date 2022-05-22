@@ -22,4 +22,5 @@ public class PollRepository implements PanacheRepository<Poll>{
 		return this.getEntityManager().createQuery("select distinct c.users from Poll p join p.pollChoices as c where p.id = ?1").setParameter(1, id).getResultList();	
 	}
 
+
 }

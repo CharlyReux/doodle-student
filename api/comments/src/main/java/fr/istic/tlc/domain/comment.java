@@ -20,24 +20,56 @@ public class comment {
     private Long id;
 
     @NotBlank
+    @Schema(title="poll id")
+    private Long pollID;
+
+    @NotBlank
+    @Schema(title="comment author")
+    private String auteur;
+
+    @NotBlank
     @Schema(title="comment content")
     private String content;
 
-    public void setcontent(String content) {
-        this.content = content;
-    }
+
+
+
 
     public comment(){}
 
-    public comment(String content){
+    public comment(String content,String auteur,Long pollID){
         this.content=content;
+        this.auteur = auteur;
+        this.pollID = pollID;
     }
 
     public String getcontent(){
         return content;
     }
+    
+    public void setcontent(String content) {
+        this.content = content;
+
+    }
 
     public Long getId(){
         return id;
+    }
+
+    public String getAuteur() {
+        return this.auteur;
+    }
+
+    public void setAuteur(String auteur) {
+        this.auteur = auteur;
+    }
+
+
+    public Long getPollID() {
+        return this.pollID;
+    }
+
+    public void setPollID(Long pollID) {
+        this.pollID = pollID;
     }
 }
