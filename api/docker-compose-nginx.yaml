@@ -13,8 +13,9 @@ services:
       - ./www:/www:ro
      # - ./nginx/global.env:/etc/nginx//global.env
     environment:
+    #TODO add PUT DELETE request
       - DISABLE_DEFAULT_SERVER=no
-      #- SERVER_NAME= doodle.local
+      - SERVER_NAME= doodle.localhost user.doodle.fr poll.doodle.fr dashboard.doodle.fr
       - GENERATE_SELF_SIGNED_SSL=yes 
       #- AUTO_LETS_ENCRYPT=yes
       - USE_REVERSE_PROXY=yes
@@ -22,15 +23,45 @@ services:
       #- MULTISITE=yes
       #- REVERSE_PROXY_URL_2=/poll
       #- REVERSE_PROXY_HOST_2=http://app2.example.local:8080
-      
     networks:
       - services-net
     depends_on:
       - user_service
-      #- poll_service
+      - poll_service
       - dashboard_service
+      - keycloak
 
+##################   User   #####################################
 
+  db_User:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_User
+      - MYSQL_DATABASE=user
+      - MYSQL_USER=user_user
+      - MYSQL_PASSWORD=user_pswd
+    healthcheck:
+      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root_User' ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - services-net
+
+  user_service:
+    image: quarkus/user-jvm:latest
+    depends_on:
+      db_User:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    restart: on-failure
+    networks:
+      - services-net
+
+##################   Dashboard   #####################################
   dashboarddb:
     image: mysql
     ports:
@@ -62,35 +93,58 @@ services:
     networks:
       - services-net
 
-  db_User:
+##################   Poll   #####################################
+
+  polldb:
     image: mysql
     ports:
-      - "3306:3306"
+      - "3307:3307"
     environment:
-      - MYSQL_ROOT_PASSWORD=root_User
-      - MYSQL_DATABASE=user
-      - MYSQL_USER=user_user
-      - MYSQL_PASSWORD=user_pswd
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=poll
+      - MYSQL_USER=poll_user
+      - MYSQL_PASSWORD=poll_pswd
     healthcheck:
-      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root_User' ]
+      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
       interval: 15s
       timeout: 10s
       retries: 5
     networks:
       - services-net
 
-  user_service:
-    image: quarkus/user-jvm:latest
+  poll_service:
+    image: quarkus/poll-jvm:latest
     depends_on:
-      db_User:
+      polldb:
         condition: service_healthy
     ports:
-      - "8081:8081"
+      - "8083:8080"
     restart: on-failure
     networks:
       - services-net
 
+##################   Pad   #####################################
 
+  etherpad:
+    image: etherpad/etherpad:latest
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
 
+##################   Keycloak   #####################################
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:18.0.0
+    ports:
+      - 8080:8080
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command: start-dev
+    networks:
+      - services-net
+
+    
 networks:
   services-net:
