@@ -80,3 +80,29 @@
   font-size: 1.3rem;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
 }
+
+.Home_dash {
+  padding: 1rem;
+  width: 95%;
+  background-color: #1d07e2;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.3rem;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+}
+
+.Home_unLog {
+  padding: 1rem;
+  width: 95%;
+  background-color: #ff3300;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.3rem;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+}

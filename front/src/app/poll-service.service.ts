@@ -54,9 +54,17 @@ export class PollService {
   }
 
 
-  public getAllPollsFromUser(id:number): Observable<dashBoardPolls>{
-    return this.http.get<dashBoardPolls>('/api/dashBoard/getUserPolls/'+id);
-  } 
+  public getAllPollsFromUser(mail:String): Observable<dashBoardPolls>{
+    return this.http.get<dashBoardPolls>('/api/dashBoard/getUserPolls/'+mail);
+  }
+  
+  public addPollToAdmin(mail:String,poll:Poll):Observable<void>{
+    return this.http.post<void>('/api/dashBoard/addPollAdmin/'+mail,poll);//FIXME: need to test this
+  }
+
+  public addPollToUser(mail:String,poll:Poll):Observable<void>{
+    return this.http.post<void>('/api/dashBoard/addPollUser/'+mail,poll);//FIXME: need to test this
+  }
 
   
 

@@ -43,18 +43,18 @@ public class dashboardRessource{
     @Autowired
     dashBoardRepository dashBoardRepository;
 
-    @PostMapping("/addPollAdmin/{idUser}")
+    @PostMapping("/addPollAdmin/{mailUser}")
 	@Transactional
     @Operation(summary = "Adds a poll corresponding to the user in admin poll",description = "retirieves the user if exists then add the data, else creates the user and adds the data")
-	public ResponseEntity<dashboard> addPollToAdmin(@Valid @RequestBody pollCopy poll,@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("idUser") Long idUser) {
-		dashboard dU = dashBoardRepository.findByIDUser(idUser);
+	public ResponseEntity<dashboard> addPollToAdmin(@Valid @RequestBody pollCopy poll,@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("mailUser") String mailUser) {
+		dashboard dU = dashBoardRepository.findByMailUser(mailUser);
 
         if(dU!=null){
             this.dashBoardRepository.delete(dU);
         }
 
         dashboard TMPdU = new dashboard();
-        TMPdU.setIdUser(idUser);
+        TMPdU.setMailUser(mailUser);
 
         List<pollCopy> adminPoll = new ArrayList<pollCopy>();
         adminPoll.add(poll);
@@ -75,10 +75,10 @@ public class dashboardRessource{
 		return new ResponseEntity<>(TMPdU, HttpStatus.CREATED);
 	}
 
-    @GetMapping("/getUserPolls/{id}")
+    @GetMapping("/getUserPolls/{mailUser}")
     @Operation(summary = "retrieves all the user polls of the user")
-    public ResponseEntity<dashboard> getUserPolls(@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("id") Long idUser){
-        return new ResponseEntity<>(this.dashBoardRepository.findByIDUser(idUser),HttpStatus.OK);
+    public ResponseEntity<dashboard> getUserPolls(@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("mailUser") String mailUser){
+        return new ResponseEntity<>(this.dashBoardRepository.findByMailUser(mailUser) ,HttpStatus.OK);
     }
 
     @GetMapping("/allDash")
@@ -93,18 +93,18 @@ public class dashboardRessource{
         return new ResponseEntity<>(this.pollCopyRepository.findAll().list(),HttpStatus.OK);
     }
 
-    @PostMapping("/addPollUser/{idUser}")
+    @PostMapping("/addPollUser/{mailUser}")
 	@Transactional
     @Operation(summary = "Adds a poll corresponding to the user in User poll",description = "retirieves the user if exists then add the data, else creates the user and adds the data")
-	public ResponseEntity<dashboard> addPollToUser(@Valid @RequestBody pollCopy poll,@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("idUser") Long idUser) {
-		dashboard dU = dashBoardRepository.findByIDUser(idUser);
+	public ResponseEntity<dashboard> addPollToUser(@Valid @RequestBody pollCopy poll,@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("mailUser") String mailUser) {
+		dashboard dU = dashBoardRepository.findByMailUser(mailUser);
 
         if(dU!=null){
             this.dashBoardRepository.delete(dU);
         }
 
         dashboard TMPdU = new dashboard();
-        TMPdU.setIdUser(idUser);
+        TMPdU.setMailUser(mailUser);
 
         List<pollCopy> usPoll = new ArrayList<pollCopy>();
         usPoll.add(poll);

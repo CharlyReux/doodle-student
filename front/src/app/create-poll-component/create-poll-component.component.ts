@@ -5,12 +5,13 @@ import { FullCalendarComponent, CalendarOptions, EventInput } from '@fullcalenda
 import frLocale from '@fullcalendar/core/locales/fr';
 import { PollChoice, Poll, User } from '../model/model';
 import { ActivatedRoute } from '@angular/router';
+import { JWTTokenService } from '../jwttoken-service.service';
 
 @Component({
   selector: 'app-create-poll-component',
   templateUrl: './create-poll-component.component.html',
   styleUrls: ['./create-poll-component.component.css'],
-  providers: [MessageService, PollService, FullCalendarComponent]
+  providers: [MessageService, PollService, FullCalendarComponent,JWTTokenService]
 })
 export class CreatePollComponentComponent implements OnInit {
   urlsondage = '';
@@ -68,7 +69,7 @@ export class CreatePollComponentComponent implements OnInit {
   submitted = false;
 
 
-  constructor(public messageService: MessageService, public pollService: PollService, private actRoute: ActivatedRoute) { }
+  constructor(public messageService: MessageService, public pollService: PollService, private actRoute: ActivatedRoute, private jwtService: JWTTokenService) { }
 
   ngOnInit(): void {
     this.poll.pollChoices = [];
@@ -228,6 +229,12 @@ export class CreatePollComponentComponent implements OnInit {
         this.urlpad = p1.padURL;
         this.step = 2;
       });
+
+      
+      if(this.jwtService.getUser()){
+        this.pollService.addPollToAdmin(this.jwtService.getEmailId(),this.poll);//FIXME: to test
+      }
+
     } else {
 
       const toKeep: PollChoice[] = [];
