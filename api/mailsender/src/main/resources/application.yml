@@ -1,16 +1,19 @@
 quarkus:
- datasource:
-   db-kind: mysql
-   username: user
-   password: pswd
-   jdbc:
-     url: jdbc:mysql://dbService:3306/user?useUnicode=true&serverTimezone=Europe/Paris
-     driver: com.mysql.cj.jdbc.Driver
- flyway:
-   migrate-at-start: true
-   baseline-on-migrate: true
- smallrye-openapi:
-   path : /swagger
- swagger-ui:
-   always-include: true
-   path: /swagger-ui-service
+  
+  smallrye-openapi:
+    path : /swagger
+  swagger-ui:
+    always-include: true
+    path: /swagger-ui-mailsender
+
+  mailer:
+    from: test@quarkus.io
+#    host: smtp.sendgrid.net
+    host: localhost
+    port: 2525
+#    port: 465
+#    ssl: true
+
+#    username: ""
+#    password: ""
+    mock: false
