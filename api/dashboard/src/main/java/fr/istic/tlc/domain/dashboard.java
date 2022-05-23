@@ -14,8 +14,7 @@ public class dashboard {
     @Schema(readOnly = true)
     private Long id;
 
-
-    Long idUser;
+    String mailUser;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "pollCopyAdID")
@@ -27,18 +26,19 @@ public class dashboard {
  
     public dashboard(){}
 
-    public dashboard(Long idUser, List<pollCopy> adPolls,List<pollCopy> userPolls){
-        this.idUser = idUser;
+    public dashboard(String mailUser, List<pollCopy> adPolls,List<pollCopy> userPolls){
+        this.mailUser = mailUser;
         this.adPolls=adPolls;
         this.userPolls=userPolls;
     }
+    
 
-    public Long getIdUser() {
-        return idUser;
+    public String getMailUser() {
+        return mailUser;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setMailUser(String mailUser) {
+        this.mailUser = mailUser;
     }
 
     public List<pollCopy> getadPolls() {

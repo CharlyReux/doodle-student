@@ -1,14 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Poll, PollChoice, User, ChoiceUser, PollCommentElement, EventDTOAndSelectedChoice, dashBoardPolls } from './model/model';
 import { Observable } from 'rxjs';
+import { JWTTokenService } from './jwttoken-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PollService {
 
-  constructor(private http: HttpClient) { }
+
+  headerDict = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Host': '',
+    'Authorization':"Bearer "+this.jwtService.getToken
+    //pas sur de a quoi ca ser'Access-Control-Allow-Headers': 'Content-Type',
+  }
+
+
+
+
+
+  constructor(private http: HttpClient,
+    private jwtService: JWTTokenService) { }
 
   public createPoll(p: Poll): Observable<Poll> {
     console.log('create poll');
@@ -54,10 +69,26 @@ export class PollService {
   }
 
 
-  public getAllPollsFromUser(id:number): Observable<dashBoardPolls>{
-    return this.http.get<dashBoardPolls>('/api/dashBoard/getUserPolls/'+id);
-  } 
-
+  public getAllPollsFromUser(mail:String): Observable<dashBoardPolls>{
+    this.headerDict.Host ="dashboard.doodle.fr"
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(this.headerDict), 
+    };
+    return this.http.get<dashBoardPolls>('/api/dashBoard/getUserPolls/'+mail,requestOptions);
+  }
   
+  public addPollToAdmin(mail:String,poll:Poll):Observable<void>{
+    return this.http.post<void>('/api/dashBoard/addPollAdmin/'+mail,poll);//FIXME: need to test this
+  }
+
+  public addPollToUser(mail:String,poll:Poll):Observable<void>{
+    return this.http.post<void>('/api/dashBoard/addPollUser/'+mail,poll);//FIXME: need to test this
+  }
+
+
+
+
+
+  //TODO: add the user register and login endpoints
 
 }

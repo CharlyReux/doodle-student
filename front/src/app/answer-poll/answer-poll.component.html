@@ -32,14 +32,15 @@
 
 
       <div class="p-fluid">
-        <div class="p-field">
+
+        <div *ngIf="!isLogged" class="p-field">
           <label for="nom">Nom prénom participant</label>
           <input #nom="ngModel" id="nom" type="text" required pInputText [(ngModel)]="personalInformation.nom"
             [ngClass]="{'p-invalid': (nom.invalid && submitted) || (nom.dirty && nom.invalid)}">
           <small *ngIf="(nom.invalid && submitted) || (nom.dirty && nom.invalid)" class="p-error">Le nom est
             requis.</small>
         </div>
-        <div class="p-field">
+        <div *ngIf="!isLogged" class="p-field">
           <label for="mail">Email participant</label>
           <span class="p-input-icon-right">
             <i *ngIf="loademail" class="pi pi-spin pi-spinner" ></i>
@@ -49,8 +50,9 @@
           </span>
           <small class="p-error" *ngIf="(mail.invalid && submitted )|| (mail.dirty && mail.invalid)">Le
             mail est requis.</small>
-
         </div>
+
+
         <div class="p-field">
           <p style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; font-size: 1rem;font-weight: normal;">Avez vous un agenda avec un flux ics accessible ?</p>
           <p-inputSwitch [(ngModel)]="hasics"></p-inputSwitch>

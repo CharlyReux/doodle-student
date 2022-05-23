@@ -34,6 +34,7 @@ import net.fortuna.ical4j.util.MapTimeZoneCache;
 import net.fortuna.ical4j.util.RandomUidGenerator;
 import net.fortuna.ical4j.util.UidGenerator;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -45,9 +46,10 @@ public class mailsenderressource {
 	@Inject
 	Mailer mailer;
 
-	@ConfigProperty(name = "doodle.organizermail")
+	@ConfigProperty(name = "quarkus.organizermail")
 	String organizermail= "test@test.fr";
 
+	@Operation(summary="sendAMail")
     @GetMapping("/sendMail")
 	public Boolean sendASimpleEmail(@RequestBody Poll p,@RequestBody List<User> participant)  {
 		// Create a default MimeMessage object.
