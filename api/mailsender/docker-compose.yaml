@@ -1,6 +1,6 @@
 version: "3.8"
 services:
   mailsender:
-    image: quarkus/mailsender:latest
+    image: quarkus/mailsender-jvm:latest
     ports:
-      - "8080:8080"
+      - "8090:8080"

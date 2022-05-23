@@ -1,4 +1,4 @@
-package fr.istic.tlc.domain;
+package istic.tlc.domain;
 
 import java.sql.Date;
 import java.util.List;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.annotations.CreationTimestamp;
 
-import fr.istic.tlc.services.Utils;
+import istic.tlc.domain.Utils;
 
 
 public class Poll {
