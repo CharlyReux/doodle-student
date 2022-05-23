@@ -18,28 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Path("/api/mailsender")
 @RegisterRestClient(configKey="mailsender-api")
-public interface commentsProxy{
+public interface mailsenderProxy{
     
-    String getcommentTest();
 
-    @DELETE
-	@Path("/comments/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-	public comment deletecommentById(@PathParam("id") String id);
-	
-    @GET
-    @Path("/all")
-    @Produces(MediaType.APPLICATION_JSON)
-    List<comment> getAllcomments();
-
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/comments")
-    comment createComment(@Valid @RequestBody comment comment);
-
-    @GET
-    @Path("/comments/poll/{idPoll}")
-    @Produces(MediaType.APPLICATION_JSON)
-	public List<comment> getAllCommentsFromPoll(@PathParam("idPoll") String pollID);
 }
