@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  mailsender:
+    image: quarkus/mailsender-jvm:latest
+    ports:
+      - "8090:8080"
+  mail:
+    image: bytemark/smtp
+    restart: always
