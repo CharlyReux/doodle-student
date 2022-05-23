@@ -1,4 +1,4 @@
-package fr.istic.tlc.services;
+package istic.tlc.domain;
 
 import java.util.Date;
 import java.util.Random;
