@@ -124,18 +124,6 @@ public class PollRessource{
 		pollRepository.persist(poll);
 		return new ResponseEntity<>(poll, HttpStatus.CREATED);
 	}
-	
-	@Tag(name="Poll")
-    @GetMapping("/{id}")
-	@Transactional
-    @Operation(summary = "retrieves a Poll by its id",description = "gets the poll corresponding to the id specified in the database")
-	public ResponseEntity<Poll> getPollByID(@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable long id) {
-		Poll p = this.pollRepository.findById(id);
-        if(p==null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-		return new ResponseEntity<>(p, HttpStatus.OK);
-	}
 
 
 	@Tag(name="Poll")
@@ -220,20 +208,6 @@ public class PollRessource{
 	}
 
 
-	@Tag(name="Poll")
-	@DeleteMapping("/polls/{id}")
-	@Transactional
-	public ResponseEntity<Poll> deletePollById(@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("id") Long id) {
-		// On vérifie que le poll existe
-		Poll poll = pollRepository.findById(id);
-		if (poll == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-        // On delete le poll
-		pollRepository.deleteById(poll.getId());
-		return new ResponseEntity<>(poll, HttpStatus.OK);
-	}
 	
 	@Operation(summary = "deletes the poll by its slug")
 	@Tag(name="Poll")
