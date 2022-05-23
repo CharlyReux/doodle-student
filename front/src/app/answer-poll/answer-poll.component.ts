@@ -9,12 +9,14 @@ import frLocale from '@fullcalendar/core/locales/fr';
 import { MessageService } from 'primeng/api';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalPollClosComponent } from '../modal-poll-clos/modal-poll-clos.component';
+import { JWTTokenService } from '../jwttoken-service.service';
+
 
 @Component({
   selector: 'app-answer-poll',
   templateUrl: './answer-poll.component.html',
   styleUrls: ['./answer-poll.component.css'],
-  providers: [MessageService, PollService, FullCalendarComponent, NgbModal]
+  providers: [MessageService, PollService, FullCalendarComponent, NgbModal,JWTTokenService]
 
 })
 export class AnswerPollComponent implements OnInit {
@@ -23,7 +25,8 @@ export class AnswerPollComponent implements OnInit {
     // tslint:disable-next-line:align
     private actRoute: ActivatedRoute, private pollService: PollService,
     // tslint:disable-next-line:align
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private jwtService: JWTTokenService) { }
   slugid: string;
   poll: Poll;
   calendarortableoption: any[];
@@ -53,7 +56,19 @@ export class AnswerPollComponent implements OnInit {
   commentdesc1 = '';
   uniqueUsers: User[] = [];
   userChoices: Map<number, PollChoice[]> = new Map();
+
+  isLogged= false;
+
+
+
   ngOnInit(): void {
+
+    this.isLogged = this.jwtService.getEmailId()!=null
+    if(this.isLogged){
+      this.personalInformation.nom = this.jwtService.getUser()
+      this.personalInformation.mail = this.jwtService.getEmailId();
+    }
+
     this.calendarortableoption = [
       { icon: 'pi pi-calendar', text: 'Calendrier', value: 'calendar' },
       { icon: 'pi pi-table', text: 'Tableau', value: 'table' },
@@ -227,12 +242,16 @@ eventDragStop: (timeSheetEntry, jsEvent, ui, activeView) => {
         //  if (this.uniqueUsers.filter(u1 => u1.id === e.id ).length === 0) {
         //    this.uniqueUsers.push(e);
         // }
+        //TODO: send the data to the service??
         this.messageService.add({
           severity: 'success',
           summary: 'Données enregistrées',
           detail: 'Merci pour votre participation'
         }
         );
+        if(this.isLogged){
+          this.pollService.addPollToUser(this.jwtService.getEmailId(),this.poll)
+        }
         this.voeuxsoumis = true;
       });
       return;

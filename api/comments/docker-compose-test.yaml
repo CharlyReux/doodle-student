@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  commentdb:
+    image: mysql
+    ports:
+      - "3307:3307"
+    expose:
+      - "3307"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=comment
+      - MYSQL_USER=comment_user
+      - MYSQL_PASSWORD=comment_pswd
+      - MYSQL_TCP_PORT= 3307

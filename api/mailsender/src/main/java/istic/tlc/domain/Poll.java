@@ -1,27 +1,12 @@
-package fr.istic.tlc.domain;
+package istic.tlc.domain;
 
 import java.sql.Date;
 import java.util.List;
 
-import javax.persistence.*;
-
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.hibernate.annotations.CreationTimestamp;
-
-import fr.istic.tlc.services.Utils;
 
 
-@Entity
-@Schema(name="Poll",description="Poll representation to create")
 public class Poll {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Schema(readOnly = true)
     private Long id;
 
     private String title;
@@ -39,15 +24,10 @@ public class Poll {
 
     private String padURL;
     
-    @CreationTimestamp
     private Date createdAt;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pollID")
-    @OrderBy("startDate ASC")
     List<Choice> pollChoices;
  
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE,CascadeType.REFRESH})
     Choice selectedChoice;
 
     public Poll(){}

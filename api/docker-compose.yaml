@@ -41,16 +41,20 @@ services:
       timeout: 10s
       retries: 5
   commentservice:
-     image: quarkus/comment-jvm:latest
-     depends_on:
+    image: quarkus/comment-jvm:latest
+    depends_on:
       commentdb:
         condition: service_healthy
-     ports:
+    ports:
       - "8081:8080"
-     restart: on-failure
+    restart: on-failure
+  mailsenderservice:
+    ports:
+      - "8090:8080"
+    restart: on-failure
 
-  calendarservice:
-     image: quarkus/calendar-jvm:latest
-     ports:
-      - "8082:8080"
-     restart: on-failure
+ # calendarservice:
+ #    image: quarkus/calendar-jvm:latest
+ #    ports:
+ #     - "8082:8080"
+ #    restart: on-failure

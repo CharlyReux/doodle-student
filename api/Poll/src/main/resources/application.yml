@@ -1,6 +1,6 @@
 quarkus:
   http:
-    port: 8082
+    port: 8083
   datasource:
     db-kind: mysql
     username: poll_user
@@ -17,4 +17,7 @@ quarkus:
   rest-client:
     comment-api:
       url: http://commentservice:8080
+      scope: javax.inject.Singleton
+    mailsender-api:
+      url: http://mailsenderservice:8090
       scope: javax.inject.Singleton
