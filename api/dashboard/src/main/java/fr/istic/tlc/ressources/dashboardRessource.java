@@ -34,7 +34,7 @@ import org.springframework.http.HttpStatus;
 
 
 @RestController
-@RequestMapping("/api/dashboard")
+@RequestMapping("/api/dashBoard")
 public class dashboardRessource{	
 
     @Autowired
