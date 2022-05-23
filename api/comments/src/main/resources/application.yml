@@ -1,10 +1,12 @@
 quarkus:
+  http:
+    port: 8081
   datasource:
     db-kind: mysql
     username: comment_user
     password: comment_pswd
     jdbc:
-      url: jdbc:mysql://commentdb:3307/comment?useUnicode=true&serverTimezone=Europe/Paris
+      url: jdbc:mysql://commentdb:3309/comment?useUnicode=true&serverTimezone=Europe/Paris
       driver: com.mysql.cj.jdbc.Driver
   flyway:
     migrate-at-start: true
@@ -17,4 +19,4 @@ quarkus:
   quarkus:
     datasource:
       jdbc:
-        url: jdbc:mysql://localhost:3307/comment?useUnicode=true&serverTimezone=Europe/Paris
+        url: jdbc:mysql://localhost:3309/comment?useUnicode=true&serverTimezone=Europe/Paris
