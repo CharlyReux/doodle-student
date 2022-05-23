@@ -120,7 +120,6 @@ public class mailsenderressource {
 
 		// Add the event and print
 		icsCalendar.getComponents().add(meeting);
-				
 		return icsCalendar.toString();
 	}
 
