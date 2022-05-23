@@ -1,7 +1,5 @@
 quarkus:
   organizermail: "baba72210@gmail.com"
-  smallrye-openapi:
-    path : /swagger
   swagger-ui:
     always-include: true
     path: /swagger-ui-mailsender

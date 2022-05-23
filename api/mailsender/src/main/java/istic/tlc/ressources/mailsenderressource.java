@@ -1,19 +1,18 @@
 package istic.tlc.ressources;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import javax.ws.rs.Path;
+import istic.tlc.domain.Choice;
 import istic.tlc.domain.Poll;
 import istic.tlc.domain.User;
 import io.quarkus.mailer.Mail;
@@ -38,11 +37,13 @@ import net.fortuna.ical4j.util.UidGenerator;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
-@Path("/api/mailsender")
-@ApplicationScoped
+@RequestMapping("/api/mailsender")
+@RestController
 public class mailsenderressource {
 
 	@Inject
@@ -52,16 +53,13 @@ public class mailsenderressource {
 	String organizermail= "test@test.fr";
 
 	@Operation(summary="sendAMail")
-    @GetMapping("/sendMail")
-	public Boolean sendASimpleEmail(@RequestBody Poll p,@RequestBody List<User> participant)  {
+    @PostMapping("/sendMail")
+	public Boolean sendASimpleEmail(@RequestBody Poll p)  {
 		// Create a default MimeMessage object.
 		System.setProperty("net.fortuna.ical4j.timezone.cache.impl", MapTimeZoneCache.class.getName());
 
-		List<User> u = participant;
-		List<String> attendees = new ArrayList<String>();
-		for (User u1 : u) {
-			attendees.add(u1.getMail());
-		}
+	
+		List<String> attendees = new ArrayList<String>(extractParticipant(p));
 		
 		String ics = this.getICS1(p.getSelectedChoice().getstartDate(), p.getSelectedChoice().getendDate(), p.getTitle(), attendees, organizermail);
 		Mail m = new Mail();
@@ -122,8 +120,18 @@ public class mailsenderressource {
 
 		// Add the event and print
 		icsCalendar.getComponents().add(meeting);
-				
 		return icsCalendar.toString();
+	}
+
+	private Set<String> extractParticipant(Poll p){
+		Set<String> participant = new HashSet<String>();
+		List<Choice> choix = p.getPollChoices();
+		for(Choice c : choix){
+			for(User u:c.getUsers()){
+				participant.add(u.getMail());
+			}
+		}
+		return participant;
 	}
 
 

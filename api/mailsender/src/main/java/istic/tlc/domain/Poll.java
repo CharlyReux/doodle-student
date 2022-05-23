@@ -3,16 +3,6 @@ package istic.tlc.domain;
 import java.sql.Date;
 import java.util.List;
 
-import javax.persistence.*;
-
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.hibernate.annotations.CreationTimestamp;
-
-import istic.tlc.domain.Utils;
 
 
 public class Poll {
