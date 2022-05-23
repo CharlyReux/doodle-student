@@ -3,12 +3,13 @@ import { CardSmallComponentComponent } from '../card-small-component/card-small-
 import {Card} from './Card';
 import { JWTTokenService } from '../jwttoken-service.service';
 import { AppCookieService } from '../app-cookie-service.service';
+import { PollService } from '../poll-service.service';
 
 @Component({
   selector: 'app-home-component',
   templateUrl: './home-component.component.html',
   styleUrls: ['./home-component.component.css'],
-  providers: [CardSmallComponentComponent,JWTTokenService,AppCookieService]
+  providers: [ PollService,CardSmallComponentComponent,JWTTokenService,AppCookieService]
 
 })
 export class HomeComponentComponent implements OnInit {
@@ -19,13 +20,16 @@ export class HomeComponentComponent implements OnInit {
 
   constructor(
     private appCookieService: AppCookieService,
-    private jwtService: JWTTokenService) { }
+    private jwtService: JWTTokenService,
+    private pollService: PollService,
+    ) { }
 
 
   cards: Card[] = [];
 
   ngOnInit(): void {
-    this.jwtService.setToken(this.appCookieService.get("token"))//TODO changer "token" en autre chose
+    this.jwtService.setToken(this.appCookieService.get("token"))
+    this.pollService.setHeaderToken(this.appCookieService.get("token"))
     this.isLogged = this.jwtService.getEmailId()!=null
     this.name = this.jwtService.getUser();
     this.mail = this.jwtService.getEmailId();

@@ -2,15 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { PollService } from '../poll-service.service';
+import { AppCookieService } from '../app-cookie-service.service';
+import { JWTTokenService } from '../jwttoken-service.service';
 
-@Component({ templateUrl: 'register.component.html' })
+@Component({
+    templateUrl: 'register.component.html',
+    providers: [PollService, JWTTokenService, AppCookieService]
+})
 export class RegisterComponent implements OnInit {
     form: FormGroup;
     loading = false;
     submitted = false;
 
     constructor(
-        private formBuilder: FormBuilder
+        private pollService: PollService,
+        private formBuilder: FormBuilder,
+        private router: Router,
+        private appCookieService: AppCookieService,
+        private jwtService: JWTTokenService
     ) { }
 
     ngOnInit() {
@@ -35,19 +45,18 @@ export class RegisterComponent implements OnInit {
         this.loading = true;
 
 
-        //TODO: Call pollService wich will get the api needed to Register the user in
-        /* this.accountService.login(this.f.username.value, this.f.password.value)
+        this.pollService.regUser(this.f.username.value, this.f.password.value)
             .pipe(first())
             .subscribe({
-                next: () => {
-                    // get return url from query parameters or default to home page
-                    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                    this.router.navigateByUrl(returnUrl);
+                next: (token) => {
+                    this.appCookieService.set("token", token)
+                    this.pollService.setHeaderToken(token)
+                    this.router.navigate([""])
                 },
                 error: error => {
-                    this.alertService.error(error);
                     this.loading = false;
+                    alert(error)
                 }
-            }); */
+            });
     }
 }
