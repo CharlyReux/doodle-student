@@ -1,17 +1,2 @@
-quarkus:
-  organizermail: "baba72210@gmail.com"
-  swagger-ui:
-    always-include: true
-    path: /swagger-ui-mailsender
-
-  mailer:
-    from: test@quarkus.io
-#    host: smtp.sendgrid.net
-    host: localhost
-    port: 2525
-#    port: 465
-#    ssl: true
-
-#    username: ""
-#    password: ""
-    mock: false
+greeting:
+  message: "hello"
