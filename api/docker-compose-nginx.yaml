@@ -15,18 +15,20 @@ services:
     environment:
     #TODO add PUT DELETE request
       - DISABLE_DEFAULT_SERVER=no
-      #- SERVER_NAME= user.doodle.fr poll.doodle.fr dashboard.doodle.fr
+      - SERVER_NAME= user.doodle.fr poll.doodle.fr dashboard.doodle.fr
       - GENERATE_SELF_SIGNED_SSL=yes 
       #- AUTO_LETS_ENCRYPT=yes
       - USE_REVERSE_PROXY=yes
       - COOKIE_AUTO_SECURE_FLAG=yes
+      - ALLOWED_METHODS=GET|POST|PUT|HEAD|DELETE
+      - USE_MODSECURITY=no
     networks:
       - services-net
     depends_on:
       # - user_service
       - poll_service
       - dashboard_service
-      # - keycloak
+      - keycloak
 
 ##################   User   #####################################
 
@@ -72,7 +74,7 @@ services:
       - MYSQL_TCP_PORT= 3308
     healthcheck:
       test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
-      interval: 20s
+      interval: 15s
       timeout: 30s
       retries: 5
     networks:
@@ -94,7 +96,7 @@ services:
   polldb:
     image: mysql
     ports:
-      - "3307:3307"
+      - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=poll
@@ -102,11 +104,11 @@ services:
       - MYSQL_PASSWORD=poll_pswd
     healthcheck:
       test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
-      interval: 20s
+      interval: 15s
       timeout: 30s
       retries: 5
     networks:
-      - services-net
+      - poll_network
 
   poll_service:
     image: quarkus/poll-jvm:latest
@@ -118,6 +120,7 @@ services:
     restart: on-failure
     networks:
       - services-net
+      - poll_network
 
 ##################   Pad   #####################################
 
@@ -135,12 +138,19 @@ services:
     ports:
       - 8080:8080
     environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-    command: start-dev
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=dashboard
+      - MYSQL_USER=dashboard_user
+      - MYSQL_PASSWORD=dashboard_pswd
+      - MYSQL_TCP_PORT= 3308
+    healthcheck:
+      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
+      interval: 20s
+      timeout: 30s
+      retries: 5
     networks:
       - services-net
-
     
 networks:
   services-net:
+  poll_network:

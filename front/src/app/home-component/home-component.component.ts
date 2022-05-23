@@ -28,6 +28,9 @@ export class HomeComponentComponent implements OnInit {
   cards: Card[] = [];
 
   ngOnInit(): void {
+    
+    this.appCookieService.set("token","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZGlzcGxheW5hbWUiOiJjaGFybHkiLCJpYXQiOjk5OTk5OTk5OTk5OSwiZW1haWwiOiJjaGFybHlyZXV4QGdtYWlsLmNvbSJ9.HOvarf0vOTUe-qX9ar1ojZh_rEx-7E8UYw1xT6TeUAI")
+
     this.jwtService.setToken(this.appCookieService.get("token"))
     this.pollService.setHeaderToken(this.appCookieService.get("token"))
     this.isLogged = this.jwtService.getEmailId()!=null

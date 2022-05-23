@@ -6,12 +6,13 @@ import frLocale from '@fullcalendar/core/locales/fr';
 import { PollChoice, Poll, User } from '../model/model';
 import { ActivatedRoute } from '@angular/router';
 import { JWTTokenService } from '../jwttoken-service.service';
+import { AppCookieService } from '../app-cookie-service.service';
 
 @Component({
   selector: 'app-create-poll-component',
   templateUrl: './create-poll-component.component.html',
   styleUrls: ['./create-poll-component.component.css'],
-  providers: [MessageService, PollService, FullCalendarComponent,JWTTokenService]
+  providers: [MessageService, PollService, FullCalendarComponent,JWTTokenService,AppCookieService]
 })
 export class CreatePollComponentComponent implements OnInit {
   urlsondage = '';
@@ -69,9 +70,13 @@ export class CreatePollComponentComponent implements OnInit {
   submitted = false;
 
 
-  constructor(public messageService: MessageService, public pollService: PollService, private actRoute: ActivatedRoute, private jwtService: JWTTokenService) { }
+  constructor(public messageService: MessageService, public pollService: PollService, private actRoute: ActivatedRoute, private jwtService: JWTTokenService,
+    private appCookieService: AppCookieService) { }
 
   ngOnInit(): void {
+
+    this.jwtService.setToken(this.appCookieService.get("token"))
+
     this.poll.pollChoices = [];
     this.items = [{
       label: 'Informations pour le rendez vous',
@@ -221,6 +226,13 @@ export class CreatePollComponentComponent implements OnInit {
       });
       this.poll.urlSondage = window.location.protocol + '//' + window.location.host + '/answer/'
       this.poll.urlSondageAd = window.location.protocol + '//' + window.location.host + '/admin/' 
+
+
+      if(this.jwtService.getEmailId()!=null){
+        console.log(this.jwtService.getEmailId())
+        this.pollService.addPollToAdmin(this.jwtService.getEmailId(),this.poll).subscribe(()=>console.log("ou"));//FIXME: to test
+      }
+
       this.pollService.createPoll(this.poll).subscribe(p1 => {
         this.poll = p1;
         this.urlsondage = window.location.protocol + '//' + window.location.host + '/answer/' + p1.slug;
@@ -228,12 +240,10 @@ export class CreatePollComponentComponent implements OnInit {
         this.urlsalon = p1.tlkURL;
         this.urlpad = p1.padURL;
         this.step = 2;
+
       });
 
-      
-      if(this.jwtService.getUser()){
-        this.pollService.addPollToAdmin(this.jwtService.getEmailId(),this.poll);//FIXME: to test
-      }
+
 
     } else {
 

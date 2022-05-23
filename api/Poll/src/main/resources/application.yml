@@ -6,7 +6,7 @@ quarkus:
     username: poll_user
     password: poll_pswd
     jdbc:
-      url: jdbc:mysql://polldb:3306/poll?useUnicode=true&serverTimezone=Europe/Paris
+      url: jdbc:mysql://polldb:3307/poll?useUnicode=true&serverTimezone=Europe/Paris
       driver: com.mysql.cj.jdbc.Driver
   flyway:
     migrate-at-start: true

@@ -31,12 +31,13 @@ export class DashboardComponent implements OnInit {
 
 /*     /////////////TEMPORARY TO MAKE A USER////////////////(charlyreux@gmail.com)
     this.appCookieService.set("token","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZGlzcGxheW5hbWUiOiJjaGFybHkiLCJpYXQiOjk5OTk5OTk5OTk5OSwiZW1haWwiOiJjaGFybHlyZXV4QGdtYWlsLmNvbSJ9.HOvarf0vOTUe-qX9ar1ojZh_rEx-7E8UYw1xT6TeUAI")
+    */
+    
     this.jwtService.setToken(this.appCookieService.get("token"))
- */
 
     if(!this.jwtService.getUser() || this.jwtService.isTokenExpired()){
       this.router.navigate(["/log"])
-    }
+    } 
 
     console.log(this.jwtService.getEmailId())
 

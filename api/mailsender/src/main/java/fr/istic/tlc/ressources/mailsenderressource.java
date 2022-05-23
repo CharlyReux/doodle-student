@@ -1,4 +1,4 @@
-package istic.tlc.ressources;
+package fr.istic.tlc.ressources;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import istic.tlc.domain.Choice;
-import istic.tlc.domain.Poll;
-import istic.tlc.domain.User;
+import fr.istic.tlc.domain.Choice;
+import fr.istic.tlc.domain.Poll;
+import fr.istic.tlc.domain.User;
 import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.Mailer;
 import net.fortuna.ical4j.model.DateTime;

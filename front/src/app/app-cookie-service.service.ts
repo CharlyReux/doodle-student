@@ -30,6 +30,6 @@ export class AppCookieService {
     }
 
     set(key: string, value: string) {
-        document.cookie = key + '=' + (value || '');
+        document.cookie = key + '=' + (value || '')+";"+"Samesite = Lax";
     }
 }
