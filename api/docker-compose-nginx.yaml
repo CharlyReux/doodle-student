@@ -15,7 +15,7 @@ services:
     environment:
     #TODO add PUT DELETE request
       - DISABLE_DEFAULT_SERVER=no
-      - SERVER_NAME= doodle.localhost user.doodle.fr poll.doodle.fr dashboard.doodle.fr
+      #- SERVER_NAME= user.doodle.fr poll.doodle.fr dashboard.doodle.fr
       - GENERATE_SELF_SIGNED_SSL=yes 
       #- AUTO_LETS_ENCRYPT=yes
       - USE_REVERSE_PROXY=yes
@@ -41,8 +41,8 @@ services:
       - MYSQL_PASSWORD=user_pswd
     healthcheck:
       test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root_User' ]
-      interval: 15s
-      timeout: 10s
+      interval: 20s
+      timeout: 30s
       retries: 5
     networks:
       - services-net
@@ -73,8 +73,8 @@ services:
       - MYSQL_TCP_PORT= 3308
     healthcheck:
       test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
-      interval: 15s
-      timeout: 10s
+      interval: 20s
+      timeout: 30s
       retries: 5
     networks:
       - services-net
@@ -103,8 +103,8 @@ services:
       - MYSQL_PASSWORD=poll_pswd
     healthcheck:
       test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
-      interval: 15s
-      timeout: 10s
+      interval: 20s
+      timeout: 30s
       retries: 5
     networks:
       - services-net
