@@ -50,8 +50,8 @@ If you want to learn more about building native executables, please consult http
 ## Related Guides
 
 - ArC ([guide](https://quarkus.io/guides/cdi-reference)): Build time CDI dependency injection
-- Flyway ([guide](https://quarkus.io/guides/flyway)): Handle your database schema migrations
 - SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
+- Agroal - Database connection pool ([guide](https://quarkus.io/guides/datasource)): Pool JDBC database connections (included in Hibernate ORM)
 - Quarkus Extension for Spring Web API ([guide](https://quarkus.io/guides/spring-web)): Use Spring Web annotations to create your REST services
 - YAML Configuration ([guide](https://quarkus.io/guides/config#yaml)): Use YAML to configure your Quarkus application
 
