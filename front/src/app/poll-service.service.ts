@@ -11,7 +11,7 @@ export class PollService {
 
 
   headerDict = {
-    'Content-Type': 'application/json',
+    'content-type': 'application/json',
     'Accept': 'application/json',
     'Host': '',
     'Authorization':""
@@ -30,8 +30,8 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    console.log('create poll');
-    return this.http.post<Poll>('/api/polls', p,{headers:this.headerDict});
+    console.log(requestOptions.headers.keys());
+    return this.http.post<Poll>('/api/poll/polls', p,requestOptions);
   }
 
 
@@ -40,7 +40,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.put<Poll>('/api/poll/update1', p,{headers:this.headerDict});
+    return this.http.put<Poll>('/api/poll/update1', p,requestOptions);
   }
 
 
@@ -49,7 +49,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.get<Poll>('/api/poll/slug/' + slugId,{headers:this.headerDict});
+    return this.http.get<Poll>('/api/poll/slug/' + slugId,requestOptions);
   }
 
   public getComentsBySlugId(slugId: string): Observable<PollCommentElement[]>{
@@ -57,7 +57,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.get<PollCommentElement[]>('/api/polls/' + slugId + '/comments',{headers:this.headerDict});
+    return this.http.get<PollCommentElement[]>('/api/polls/' + slugId + '/comments',requestOptions);
   }
 
   public getPollBySlugAdminId(slugId: string): Observable<Poll>{
@@ -65,7 +65,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.get<Poll>('/api/poll/aslug/' + slugId,{headers:this.headerDict});
+    return this.http.get<Poll>('/api/poll/aslug/' + slugId,requestOptions);
 
   }
 
@@ -74,7 +74,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.post<User>('/api/poll/choiceuser/', cu,{headers:this.headerDict});
+    return this.http.post<User>('/api/poll/choiceuser/', cu,requestOptions);
   }
 
   public addComment4Poll( slug: string, comment: PollCommentElement ): Observable<PollCommentElement>{
@@ -82,7 +82,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.post<PollCommentElement>('/api/poll/comment/' + slug, comment,{headers:this.headerDict});
+    return this.http.post<PollCommentElement>('/api/poll/comment/' + slug, comment,requestOptions);
   }
 
   selectEvent(choiceid: number): Observable<void> {
@@ -90,7 +90,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.post<void>('/api/poll/selectedchoice/' + choiceid,{headers:this.headerDict});
+    return this.http.post<void>('/api/poll/selectedchoice/' + choiceid,requestOptions);
 
   }
 
@@ -99,7 +99,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.get<EventDTOAndSelectedChoice>('/api/ics/polls/' + slug + '/' + btoa(ics),{headers:this.headerDict});
+    return this.http.get<EventDTOAndSelectedChoice>('/api/ics/polls/' + slug + '/' + btoa(ics),requestOptions);
   }
 
 
@@ -108,7 +108,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.get<dashBoardPolls>('/api/dashBoard/getUserPolls/'+mail,{headers:this.headerDict});
+    return this.http.get<dashBoardPolls>('/api/dashBoard/getUserPolls/'+mail,requestOptions);
   }
   
   public addPollToAdmin(mail:String,poll:Poll):Observable<void>{
@@ -116,7 +116,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.post<void>('/api/dashBoard/addPollAdmin/'+mail,poll,{headers:this.headerDict});//FIXME: need to test this
+    return this.http.post<void>('/api/dashBoard/addPollAdmin/'+mail,poll,requestOptions);//FIXME: need to test this
   }
 
   public addPollToUser(mail:String,poll:Poll):Observable<void>{
@@ -124,7 +124,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.post<void>('/api/dashBoard/addPollUser/'+mail,poll,{headers:this.headerDict});//FIXME: need to test this
+    return this.http.post<void>('/api/dashBoard/addPollUser/'+mail,poll,requestOptions);//FIXME: need to test this
   }
 
 
@@ -149,7 +149,7 @@ export class PollService {
       headers: new HttpHeaders(this.headerDict), 
     };
     const userLogPost={username:username,password:password,client_id:"nginx"}
-    return this.http.post<string>('/auth/realms/Myrealm/protocol/openid-connect/token',userLogPost,{headers:this.headerDict})
+    return this.http.post<string>('/auth/realms/Myrealm/protocol/openid-connect/token',userLogPost,requestOptions)
   }
 
 //
@@ -162,7 +162,7 @@ export class PollService {
       headers: new HttpHeaders(this.headerDict), 
     };
     const userRegPost = {"firstName":"","lastName":"", "email":username, "enabled":"true", "username":"app-user","password":password}
-    return this.http.post<string>("/auth/admin/realms/appsdeveloperblog/users",userRegPost,{headers:tmpHeader})
+    return this.http.post<string>("/auth/admin/realms/appsdeveloperblog/users",userRegPost,requestOptions)
   }
 
 

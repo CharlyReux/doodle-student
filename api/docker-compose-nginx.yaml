@@ -8,9 +8,9 @@ services:
       - 80:8080
       - 443:8443
     volumes:
-      - ./certs:/etc/letsencrypt
+      # - ./certs:/etc/letsencrypt
       - ./server-confs:/server-confs:ro
-      - ./www:/www:ro
+      # - ./www:/www:ro
      # - ./nginx/global.env:/etc/nginx//global.env
     environment:
     #TODO add PUT DELETE request
@@ -23,46 +23,45 @@ services:
     networks:
       - services-net
     depends_on:
-      - user_service
+      # - user_service
       - poll_service
       - dashboard_service
-      - keycloak
+      # - keycloak
 
 ##################   User   #####################################
 
-  db_User:
-    image: mysql
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=root_User
-      - MYSQL_DATABASE=user
-      - MYSQL_USER=user_user
-      - MYSQL_PASSWORD=user_pswd
-    healthcheck:
-      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root_User' ]
-      interval: 20s
-      timeout: 30s
-      retries: 5
-    networks:
-      - services-net
+  # db_User:
+  #   image: mysql
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=root_User
+  #     - MYSQL_DATABASE=user
+  #     - MYSQL_USER=user_user
+  #     - MYSQL_PASSWORD=user_pswd
+  #   healthcheck:
+  #     test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root_User' ]
+  #     interval: 20s
+  #     timeout: 30s
+  #     retries: 5
+  #   networks:
+  #     - services-net
 
-  user_service:
-    image: quarkus/user-jvm:latest
-    depends_on:
-      db_User:
-        condition: service_healthy
-    ports:
-      - "8081:8081"
-    restart: on-failure
-    networks:
-      - services-net
+  # user_service:
+  #   image: quarkus/user-jvm:latest
+  #   depends_on:
+  #     db_User:
+  #       condition: service_healthy
+  #   ports:
+  #     - "8081:8081"
+  #   restart: on-failure
+  #   networks:
+  #     - services-net
 
 ##################   Dashboard   #####################################
+
   dashboarddb:
     image: mysql
-    ports:
-      - "3308:3308"
     expose:
       - "3308"
     environment:
@@ -122,12 +121,12 @@ services:
 
 ##################   Pad   #####################################
 
-  etherpad:
-    image: etherpad/etherpad:latest
-    ports:
-      - "9001:9001"
-    volumes:
-      - ./APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
+  # etherpad:
+  #   image: etherpad/etherpad:latest
+  #   ports:
+  #     - "9001:9001"
+  #   volumes:
+  #     - ./APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
 
 ##################   Keycloak   #####################################
 
