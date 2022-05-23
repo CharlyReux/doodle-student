@@ -1,5 +1,5 @@
 quarkus:
-  
+  organizermail: "baba72210@gmail.com"
   smallrye-openapi:
     path : /swagger
   swagger-ui:
