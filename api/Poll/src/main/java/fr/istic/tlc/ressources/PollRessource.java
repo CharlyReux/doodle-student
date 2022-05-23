@@ -138,42 +138,25 @@ public class PollRessource{
 	}
 
 
-	
-	@Tag(name="Poll")
-	@GetMapping("/polls/{slug}")
-	@Operation(summary = "Retrieves the poll by its slug")
-	public ResponseEntity<Poll> retrievePoll(@PathVariable String slug) {
-		// On vérifie que le poll existe
-		Poll poll = pollRepository.findBySlug(slug);
-		if (poll == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		poll.setSlugAdmin("");
-		return new ResponseEntity<>(poll, HttpStatus.OK);
-	}
-
 	@Tag(name="Poll")
 	@GetMapping("/slug/{slug}")
 	@Operation(summary = "Retrieves the poll by its slug")
-	public Poll getPollBySlug(@PathParam("slug") String slug) {
+	public Poll getPollBySlug(@PathVariable("slug") String slug) {
 		Poll p = pollRepository.findBySlug(slug);
-		if (p != null)
-			//TODO: remove comments
-		p.setSlugAdmin("");//??
 		return p;
 	}
 
 	@Tag(name="Poll")
 	@GetMapping("/aslug/{aslug}")
 	@Operation(summary = "Retrieves the poll by its admin slug")
-	public Poll getPollByASlug(@PathParam("aslug") String aslug) {
+	public Poll getPollByASlug(@PathVariable("aslug") String aslug) {
 		return pollRepository.findByAdminSlug(aslug);
 	}
 	
 	@Tag(name="Poll")
     @PutMapping("/polls/{id}")
 	@Transactional
-    @Operation(summary = "Updates title of the Poll with the id specified",description = "gets the poll corresponding to the id specified in the database and modifies it with the body specified")
+    @Operation(summary = "Updates the Poll with the id specified",description = "gets the poll corresponding to the id specified in the database and modifies it with the body specified")
 	public ResponseEntity<Object> updatePollById(@Valid @RequestBody Poll poll,@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable long id) {
 		// On vérifie que le poll existe
 		Poll optionalPoll = pollRepository.findById(id);
@@ -252,10 +235,11 @@ public class PollRessource{
 		return new ResponseEntity<>(poll, HttpStatus.OK);
 	}
 	
+	@Operation(summary = "deletes the poll by its slug")
 	@Tag(name="Poll")
 	@DeleteMapping("/polls/{slug}")
 	@Transactional
-	public ResponseEntity<Poll> deletePoll(@PathParam("slug") String slug) {
+	public ResponseEntity<Poll> deletePoll(@PathVariable("slug") String slug) {
 		// On vérifie que le poll existe
 		Poll poll = pollRepository.findBySlug(slug);
 		if (poll == null) {
@@ -265,7 +249,7 @@ public class PollRessource{
 		// Fait automatiquement par le cascade type ALL
 
 		// On supprime tous les commentaires du poll
-		// TODO : Ajouter un idPoll et faire une suppresion dans comment
+		// TODO:  faire une suppresion dans comment
 
 		// On supprime le poll de la bdd
 		pollRepository.deleteById(poll.getId());
@@ -282,7 +266,7 @@ public class PollRessource{
 		p.setSelectedChoice(c);
 		this.pollRepository.persist(p);
 
-		//envoyer mail
+		//TODO: envoyer mail
 	}
 
 	//User Endpoints
