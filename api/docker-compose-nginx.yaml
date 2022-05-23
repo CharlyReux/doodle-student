@@ -30,6 +30,8 @@ services:
       - dashboard_service
       - keycloak
 
+
+
 ##################   User   #####################################
 
   # db_User:
@@ -122,6 +124,38 @@ services:
       - services-net
       - poll_network
 
+##################   Comment   #####################################
+  
+  commentdb:
+    image: mysql
+    ports:
+      - "3309:3306"
+    expose:
+      - "3309"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=comment
+      - MYSQL_USER=comment_user
+      - MYSQL_PASSWORD=comment_pswd
+      - MYSQL_TCP_PORT= 3309
+    healthcheck:
+      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - poll_network
+
+  commentservice:
+    image: quarkus/comment-jvm:latest
+    depends_on:
+      commentdb:
+        condition: service_healthy
+    ports:
+      - "8081:8080"
+    restart: on-failure
+    networks:
+      - poll_network
 ##################   Pad   #####################################
 
   # etherpad:

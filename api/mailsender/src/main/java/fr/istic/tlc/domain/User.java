@@ -1,4 +1,4 @@
-package istic.tlc.domain;
+package fr.istic.tlc.domain;
 
 import java.util.ArrayList;
 import java.util.List;

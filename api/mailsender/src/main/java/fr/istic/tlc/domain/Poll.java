@@ -1,4 +1,4 @@
-package istic.tlc.domain;
+package fr.istic.tlc.domain;
 
 import java.sql.Date;
 import java.util.List;
