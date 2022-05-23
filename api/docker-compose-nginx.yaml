@@ -20,9 +20,6 @@ services:
       #- AUTO_LETS_ENCRYPT=yes
       - USE_REVERSE_PROXY=yes
       - COOKIE_AUTO_SECURE_FLAG=yes
-      #- MULTISITE=yes
-      #- REVERSE_PROXY_URL_2=/poll
-      #- REVERSE_PROXY_HOST_2=http://app2.example.local:8080
     networks:
       - services-net
     depends_on:
