@@ -20,6 +20,8 @@ services:
       #- AUTO_LETS_ENCRYPT=yes
       - USE_REVERSE_PROXY=yes
       - COOKIE_AUTO_SECURE_FLAG=yes
+      - USE_MODSECURITY=no
+
     networks:
       - services-net
     depends_on:

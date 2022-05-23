@@ -10,13 +10,14 @@ import { MessageService } from 'primeng/api';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalPollClosComponent } from '../modal-poll-clos/modal-poll-clos.component';
 import { JWTTokenService } from '../jwttoken-service.service';
+import { AppCookieService } from '../app-cookie-service.service';
 
 
 @Component({
   selector: 'app-answer-poll',
   templateUrl: './answer-poll.component.html',
   styleUrls: ['./answer-poll.component.css'],
-  providers: [MessageService, PollService, FullCalendarComponent, NgbModal,JWTTokenService]
+  providers: [MessageService, PollService, FullCalendarComponent, NgbModal,JWTTokenService,AppCookieService]
 
 })
 export class AnswerPollComponent implements OnInit {
@@ -26,7 +27,8 @@ export class AnswerPollComponent implements OnInit {
     private actRoute: ActivatedRoute, private pollService: PollService,
     // tslint:disable-next-line:align
     private modalService: NgbModal,
-    private jwtService: JWTTokenService) { }
+    private jwtService: JWTTokenService,
+    private appCookieService: AppCookieService) { }
   slugid: string;
   poll: Poll;
   calendarortableoption: any[];
@@ -63,6 +65,7 @@ export class AnswerPollComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.jwtService.setToken(this.appCookieService.get("token"))
     this.isLogged = this.jwtService.getEmailId()!=null
     if(this.isLogged){
       this.personalInformation.nom = this.jwtService.getUser()
@@ -250,7 +253,7 @@ eventDragStop: (timeSheetEntry, jsEvent, ui, activeView) => {
         }
         );
         if(this.isLogged){
-          this.pollService.addPollToUser(this.jwtService.getEmailId(),this.poll)
+          this.pollService.addPollToUser(this.jwtService.getEmailId(),this.poll).subscribe(()=>console.log("AddedtoDash"))
         }
         this.voeuxsoumis = true;
       });
