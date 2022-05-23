@@ -14,7 +14,7 @@ export class PollService {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     'Host': '',
-    'Authorization':"Bearer "+this.jwtService.getToken
+    'Authorization':""
     //pas sur de a quoi ca ser'Access-Control-Allow-Headers': 'Content-Type',
   }
 
@@ -31,7 +31,7 @@ export class PollService {
       headers: new HttpHeaders(this.headerDict), 
     };
     console.log('create poll');
-    return this.http.post<Poll>('/api/polls', p);
+    return this.http.post<Poll>('/api/polls', p,{headers:this.headerDict});
   }
 
 
@@ -40,7 +40,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.put<Poll>('/api/poll/update1', p);
+    return this.http.put<Poll>('/api/poll/update1', p,{headers:this.headerDict});
   }
 
 
@@ -49,7 +49,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.get<Poll>('/api/poll/slug/' + slugId);
+    return this.http.get<Poll>('/api/poll/slug/' + slugId,{headers:this.headerDict});
   }
 
   public getComentsBySlugId(slugId: string): Observable<PollCommentElement[]>{
@@ -57,7 +57,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.get<PollCommentElement[]>('/api/polls/' + slugId + '/comments');
+    return this.http.get<PollCommentElement[]>('/api/polls/' + slugId + '/comments',{headers:this.headerDict});
   }
 
   public getPollBySlugAdminId(slugId: string): Observable<Poll>{
@@ -65,7 +65,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.get<Poll>('/api/poll/aslug/' + slugId);
+    return this.http.get<Poll>('/api/poll/aslug/' + slugId,{headers:this.headerDict});
 
   }
 
@@ -74,7 +74,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.post<User>('/api/poll/choiceuser/', cu);
+    return this.http.post<User>('/api/poll/choiceuser/', cu,{headers:this.headerDict});
   }
 
   public addComment4Poll( slug: string, comment: PollCommentElement ): Observable<PollCommentElement>{
@@ -82,7 +82,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.post<PollCommentElement>('/api/poll/comment/' + slug, comment);
+    return this.http.post<PollCommentElement>('/api/poll/comment/' + slug, comment,{headers:this.headerDict});
   }
 
   selectEvent(choiceid: number): Observable<void> {
@@ -90,7 +90,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.post<void>('/api/poll/selectedchoice/' + choiceid, null);
+    return this.http.post<void>('/api/poll/selectedchoice/' + choiceid,{headers:this.headerDict});
 
   }
 
@@ -99,7 +99,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.get<EventDTOAndSelectedChoice>('/api/ics/polls/' + slug + '/' + btoa(ics));
+    return this.http.get<EventDTOAndSelectedChoice>('/api/ics/polls/' + slug + '/' + btoa(ics),{headers:this.headerDict});
   }
 
 
@@ -108,7 +108,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.get<dashBoardPolls>('/api/dashBoard/getUserPolls/'+mail,requestOptions);
+    return this.http.get<dashBoardPolls>('/api/dashBoard/getUserPolls/'+mail,{headers:this.headerDict});
   }
   
   public addPollToAdmin(mail:String,poll:Poll):Observable<void>{
@@ -116,7 +116,7 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.post<void>('/api/dashBoard/addPollAdmin/'+mail,poll);//FIXME: need to test this
+    return this.http.post<void>('/api/dashBoard/addPollAdmin/'+mail,poll,{headers:this.headerDict});//FIXME: need to test this
   }
 
   public addPollToUser(mail:String,poll:Poll):Observable<void>{
@@ -124,7 +124,12 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    return this.http.post<void>('/api/dashBoard/addPollUser/'+mail,poll);//FIXME: need to test this
+    return this.http.post<void>('/api/dashBoard/addPollUser/'+mail,poll,{headers:this.headerDict});//FIXME: need to test this
+  }
+
+
+  public setHeaderToken(token:string){
+    this.headerDict.Authorization = "Bearer "+token
   }
 
 
@@ -132,5 +137,33 @@ export class PollService {
 
 
   //TODO: add the user register and login endpoints
+/**
+ * 
+ * @param username the mail of the user
+ * @param password The password of the user
+ * @returns an identification token
+ */
+  public logUser(username:string, password:string):Observable<string>{
+    this.headerDict.Host ="keycloak.doodle.fr"
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(this.headerDict), 
+    };
+    const userLogPost={username:username,password:password,client_id:"nginx"}
+    return this.http.post<string>('/auth/realms/Myrealm/protocol/openid-connect/token',userLogPost,{headers:this.headerDict})
+  }
+
+//
+  public regUser(username:string, password:string):Observable<string>{
+    const tmpHeader = this.headerDict
+
+    tmpHeader.Host ="keycloak.doodle.fr"
+    tmpHeader.Authorization ='Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJFY2dlX3Y0c09fZUZ0TnhqYWJjT19QLTBhQ3p6S2VfMW02OU5mRjlBc1VzIn0.eyJleHAiOjE1OTI1Njc4OTEsImlhdCI6MTU5MjU2NzgzMSwianRpIjoiNjJiMWRlODEtNTBhMS00NzA2LWFmN2MtYzhhZTc1YTg1OTJhIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL21hc3RlciIsInN1YiI6IjNmYjc1YTM4LTA4NjctNGZlYi04ZTBlLWYzMTkxZTZlODZlMSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiJhMDMwNGNiMS0xMzViLTQzODItYjYwMi0xNjNmNzgzYWNlN2IiLCJhY3IiOiIxIiwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbjIifQ.G9-OiyrGWk8cY4S3Ho255Y_euk_gTKDgYmGmU8RPBSeBNtFb_A68tuPFJxFKbzhZ1lipKJCXQsHbStoihvXAmmRsKzud5hDIvvnrD7CcVxAIpbd2wV5i6mB2wVLocV0_FCrE0-DNi_GPAKnazjFiVu3TxxM2L8Zsw7PHN9sb8Ux_lRvAFyNY5bT7NTbmEmt6LsO2An7iTZdBLScK9Lk9ZW8_0WG4eLMy9fatrpVV3MXhINW56gZD8WsWISY0m-cbIftDreZ1f2lzIjMGfkDrgCjy-VZjeIpbmffN-YGrUVywziymBRwA7FFLAxcf6jS5548HVxxKeMPIvNEfDG7eWw'
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(this.headerDict), 
+    };
+    const userRegPost = {"firstName":"","lastName":"", "email":username, "enabled":"true", "username":"app-user","password":password}
+    return this.http.post<string>("/auth/admin/realms/appsdeveloperblog/users",userRegPost,{headers:tmpHeader})
+  }
+
 
 }
