@@ -1,4 +1,4 @@
-package fr.istic.tlc.config;
+package istic.tlc.config;
 
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.info.Info;
