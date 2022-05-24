@@ -164,12 +164,14 @@ services:
       - poll_network
 ##################   Pad   #####################################
 
-  # etherpad:
-  #   image: etherpad/etherpad:latest
-  #   ports:
-  #     - "9001:9001"
-  #   volumes:
-  #     - ./APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
+  etherpad:
+    image: etherpad/etherpad:latest
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./Poll/APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
+    networks:
+      - services-net
 
 ##################   Keycloak   #####################################
 
