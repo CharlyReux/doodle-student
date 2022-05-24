@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 services:
   polldb:
     image: mysql
@@ -14,6 +14,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 5
+
   pollservice:
      image: quarkus/poll-jvm:latest
      depends_on:
@@ -22,3 +23,10 @@ services:
      ports:
       - "8083:8080"
      restart: on-failure
+
+  etherpad:
+    image: etherpad/etherpad:latest
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./APIKEY.txt:/opt/etherpad-lite/APIKEY.txt

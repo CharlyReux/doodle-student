@@ -1,12 +1,12 @@
 quarkus:
-  http:
-    port: 8083
+  # http:
+  #   port: 8083
   datasource:
     db-kind: mysql
     username: poll_user
     password: poll_pswd
     jdbc:
-      url: jdbc:mysql://polldb:3307/poll?useUnicode=true&serverTimezone=Europe/Paris
+      url: jdbc:mysql://polldb:3306/poll?useUnicode=true&serverTimezone=Europe/Paris
       driver: com.mysql.cj.jdbc.Driver
   flyway:
     migrate-at-start: true
@@ -21,3 +21,12 @@ quarkus:
     mailsender-api:
       url: http://mailsenderservice:8090
       scope: javax.inject.Singleton
+
+###################PAD################
+doodle:
+  usepad: true
+  internalPadUrl: "http://etherpad:9001/"
+  externalPadUrl: "http://localhost:9001/"
+  padApiKey: "a04f17343b51afaa036a7428171dd873469cd85911ab43be0503d29d2acbbd58"
+  organizermail: "charlyreux@gmail.com"
+  tmpfolder: "/tmp/excelFiles"
