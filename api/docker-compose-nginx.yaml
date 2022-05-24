@@ -21,13 +21,15 @@ services:
       - USE_REVERSE_PROXY=yes
       - COOKIE_AUTO_SECURE_FLAG=yes
       - ALLOWED_METHODS=GET|POST|PUT|HEAD|DELETE
-      - USE_MODSECURITY=no
+      #- USE_MODSECURITY=no
+      - PROXY_REAL_IP=yes
     networks:
       - services-net
     depends_on:
       # - user_service
       - poll_service
       - dashboard_service
+      - etherpad
       #- keycloak
 
 

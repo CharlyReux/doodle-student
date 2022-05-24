@@ -11,6 +11,12 @@ echo "Package et conteneurisation Poll"
 docker build -f src/main/docker/Dockerfile.jvm -t quarkus/poll-jvm .
 cd ..
 
+cd dashboard
+echo "Package et conteneurisation Dashboard"
+./mvnw package -Dmaven.test.skip=true
+docker build -f src/main/docker/Dockerfile.jvm -t quarkus/dashboard-jvm .
+cd ..
+
 #cd calendar
 #echo "Package et conteneurisation calendar"
 #./mvnw package -Dmaven.test.skip=true
@@ -23,6 +29,6 @@ cd ..
 #docker build -f src/main/docker/Dockerfile.jvm -t quarkus/mailsender-jvm .
 #cd ..
 
-
 echo "Lancement Docker compose"
-docker-compose up
+docker-compose -f docker-compose-nginx.yaml down
+docker-compose -f docker-compose-nginx.yaml up

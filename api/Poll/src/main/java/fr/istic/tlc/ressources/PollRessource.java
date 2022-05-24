@@ -64,7 +64,7 @@ public class PollRessource {
 	boolean usePad = true;
 	@ConfigProperty(name = "doodle.internalPadUrl", defaultValue = "http://etherpad:9001/")
 	String padUrl = "";
-	@ConfigProperty(name = "doodle.externalPadUrl", defaultValue = "http://localhost:9001/")
+	@ConfigProperty(name = "doodle.externalPadUrl", defaultValue = "http://localhost/")
 	String externalPadUrl = "";
 	@ConfigProperty(name = "doodle.padApiKey")
 	String apikey = "";
