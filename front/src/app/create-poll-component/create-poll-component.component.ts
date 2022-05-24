@@ -237,9 +237,9 @@ export class CreatePollComponentComponent implements OnInit {
         this.urlpad = p1.padURL;
         this.step = 2;
 
-        if(this.jwtService.getEmailId()!=null){
+        if(this.appCookieService.get("mail")!=null){
           console.log(this.jwtService.getEmailId())
-          this.pollService.addPollToAdmin(this.jwtService.getEmailId(),this.poll).subscribe(()=>console.log("ou"));
+          this.pollService.addPollToAdmin(this.appCookieService.get("mail"),this.poll).subscribe(()=>console.log("ou"));
         }
       });
 
