@@ -16,7 +16,7 @@ quarkus:
     path: /swagger-ui-Poll
   rest-client:
     comment-api:
-      url: http://commentservice:8080
+      url: http://commentservice:8081
       scope: javax.inject.Singleton
     mailsender-api:
       url: http://mailsenderservice:8090
