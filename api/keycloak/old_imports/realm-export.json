@@ -1,6 +1,6 @@
 {
   "id": "myrealm",
-  "realm": "projet_gl",
+  "realm": "myrealm",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -33,7 +33,7 @@
   "verifyEmail": false,
   "loginWithEmailAllowed": true,
   "duplicateEmailsAllowed": false,
-  "resetPasswordAllowed": true,
+  "resetPasswordAllowed": false,
   "editUsernameAllowed": false,
   "bruteForceProtected": false,
   "permanentLockout": false,
@@ -440,47 +440,6 @@
   "webAuthnPolicyPasswordlessCreateTimeout": 0,
   "webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister": false,
   "webAuthnPolicyPasswordlessAcceptableAaguids": [],
-  "users": [
-    {
-      "id": "2e3ec17f-d5fd-4164-b83a-63f8058b4e8a",
-      "createdTimestamp": 1653417870723,
-      "username": "service-account-nginx",
-      "enabled": true,
-      "totp": false,
-      "emailVerified": false,
-      "serviceAccountClientId": "nginx",
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": [
-        "default-roles-myrealm"
-      ],
-      "clientRoles": {
-        "realm-management": [
-          "view-identity-providers",
-          "view-clients",
-          "impersonation",
-          "query-clients",
-          "realm-admin",
-          "manage-identity-providers",
-          "query-groups",
-          "view-events",
-          "manage-events",
-          "manage-authorization",
-          "view-users",
-          "query-users",
-          "manage-clients",
-          "query-realms",
-          "create-client",
-          "view-realm",
-          "manage-realm",
-          "manage-users",
-          "view-authorization"
-        ]
-      },
-      "notBefore": 0,
-      "groups": []
-    }
-  ],
   "scopeMappings": [
     {
       "clientScope": "offline_access",
@@ -505,13 +464,13 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/projet_gl/account/",
+      "baseUrl": "/realms/myrealm/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/projet_gl/account/*"
+        "/realms/myrealm/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -671,28 +630,22 @@
     {
       "id": "30bb1f7f-992a-4494-b8ef-5863efbe37a1",
       "clientId": "nginx",
-      "rootUrl": "http://localhost/",
-      "adminUrl": "localhost",
-      "baseUrl": "http://localhost",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
       "redirectUris": [
-        "http://localhost/auth/*"
+        "localhost:3333"
       ],
-      "webOrigins": [
-        "localhost"
-      ],
+      "webOrigins": [],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": true,
-      "publicClient": false,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
       "attributes": {
@@ -722,23 +675,6 @@
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": true,
       "nodeReRegistrationTimeout": -1,
-      "protocolMappers": [
-        {
-          "id": "679b0617-3f77-4a65-b179-57410ec98314",
-          "name": "mail_token",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usermodel-attribute-mapper",
-          "consentRequired": false,
-          "config": {
-            "userinfo.token.claim": "true",
-            "user.attribute": "username",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "username",
-            "jsonType.label": "String"
-          }
-        }
-      ],
       "defaultClientScopes": [
         "web-origins",
         "profile",
@@ -794,13 +730,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/projet_gl/console/",
+      "baseUrl": "/admin/myrealm/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/projet_gl/console/*"
+        "/admin/myrealm/console/*"
       ],
       "webOrigins": [
         "+"
@@ -2206,12 +2142,7 @@
     "cibaAuthRequestedUserHint": "login_hint",
     "oauth2DeviceCodeLifespan": "600",
     "oauth2DevicePollingInterval": "5",
-    "clientOfflineSessionMaxLifespan": "0",
-    "clientSessionIdleTimeout": "0",
-    "userProfileEnabled": "false",
     "parRequestUriLifespan": "60",
-    "clientSessionMaxLifespan": "0",
-    "clientOfflineSessionIdleTimeout": "0",
     "cibaInterval": "5"
   },
   "keycloakVersion": "16.1.1",
