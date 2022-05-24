@@ -3,7 +3,7 @@ package fr.istic.tlc.domain;
 import javax.persistence.*;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedType;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
