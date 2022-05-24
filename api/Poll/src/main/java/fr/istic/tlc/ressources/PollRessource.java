@@ -142,7 +142,7 @@ public class PollRessource {
 			}
 			client.createPad(padId);
 			initPad(poll.getTitle(), poll.getLocation(), poll.getDescription(), client, padId);
-			poll.setPadURL(externalPadUrl + "/p/" + padId);
+			poll.setPadURL(externalPadUrl + "p/" + padId);
 		}
 		pollRepository.persist(poll);
 		return new ResponseEntity<>(poll, HttpStatus.CREATED);
