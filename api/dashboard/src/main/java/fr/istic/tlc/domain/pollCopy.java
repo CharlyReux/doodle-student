@@ -109,7 +109,7 @@ public class pollCopy {
         return slugAdmin;
     }
 
-    public void setSlugAd(String slugAdmin) {
+    public void setSlugAdmin(String slugAdmin) {
         this.slugAdmin = slugAdmin;
     }
 
