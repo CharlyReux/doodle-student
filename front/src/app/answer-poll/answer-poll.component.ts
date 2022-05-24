@@ -66,7 +66,7 @@ export class AnswerPollComponent implements OnInit {
   ngOnInit(): void {
 
     this.jwtService.setToken(this.appCookieService.get("token"))
-    this.isLogged = this.jwtService.getEmailId()!=null
+    this.isLogged = this.appCookieService.get("mail")!=null
     if(this.isLogged){
       this.personalInformation.nom = this.jwtService.getUser()
       this.personalInformation.mail = this.jwtService.getEmailId();
@@ -253,7 +253,7 @@ eventDragStop: (timeSheetEntry, jsEvent, ui, activeView) => {
         }
         );
         if(this.isLogged){
-          this.pollService.addPollToUser(this.jwtService.getEmailId(),this.poll).subscribe(()=>console.log("AddedtoDash"))
+          this.pollService.addPollToUser(this.appCookieService.get("mail"),this.poll).subscribe(()=>console.log("AddedtoDash"))
         }
         this.voeuxsoumis = true;
       });

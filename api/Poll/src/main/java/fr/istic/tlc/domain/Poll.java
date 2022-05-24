@@ -161,5 +161,10 @@ public class Poll {
     public String getPadURL() {
         return this.padURL;
     }
+
+    public void setPadURL(String padURL) {
+        this.padURL = padURL;
+    }
+    
     
 }

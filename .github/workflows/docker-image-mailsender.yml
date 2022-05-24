@@ -1,4 +1,4 @@
-name: Dashboard service Docker Image CI
+name: Docker Image mailsender
 
 on:
   push:
@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: cd api/dashboard && ./mvnw package && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/dashboard-jvm .
+      run: cd api/mailsender && ./mvnw package && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/mailsender-jvm .

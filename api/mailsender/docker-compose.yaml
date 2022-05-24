@@ -4,6 +4,16 @@ services:
     image: quarkus/mailsender-jvm:latest
     ports:
       - "8090:8080"
-  mail:
+    networks:
+      - mail_network
+  
+  mailer:
     image: bytemark/smtp
     restart: always
+    ports:
+      - "2525:25"
+    networks:
+      - mail_network
+
+networks:
+  mail_network:

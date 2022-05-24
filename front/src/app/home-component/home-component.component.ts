@@ -29,13 +29,13 @@ export class HomeComponentComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.appCookieService.set("token","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZGlzcGxheW5hbWUiOiJjaGFybHkiLCJpYXQiOjk5OTk5OTk5OTk5OSwiZW1haWwiOiJjaGFybHlyZXV4QGdtYWlsLmNvbSJ9.HOvarf0vOTUe-qX9ar1ojZh_rEx-7E8UYw1xT6TeUAI")
+    //this.appCookieService.set("token","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZGlzcGxheW5hbWUiOiJjaGFybHkiLCJpYXQiOjk5OTk5OTk5OTk5OSwiZW1haWwiOiJjaGFybHlyZXV4QGdtYWlsLmNvbSJ9.HOvarf0vOTUe-qX9ar1ojZh_rEx-7E8UYw1xT6TeUAI")
 
     this.jwtService.setToken(this.appCookieService.get("token"))
     this.pollService.setHeaderToken(this.appCookieService.get("token"))
-    this.isLogged = this.jwtService.getEmailId()!=null
+    this.isLogged = this.appCookieService.get("mail")!=null
     this.name = this.jwtService.getUser();
-    this.mail = this.jwtService.getEmailId();
+    this.mail = this.appCookieService.get("mail");
 
     this.cards.push(new Card('assets/1.png', {backgroundColor: '#44baf2', color: 'white'}, 'Créez un sondage', 'Définissez plusieurs créneaux pour votre réunion.'));
     this.cards.push(new Card('assets/2.png', {backgroundColor: '#fc506d', color: 'white'}, 'Envoyez vos invitations', 'Les participants aux sondages pourront voter pour les dates qui leur conviennent le mieux !'));
@@ -46,6 +46,7 @@ export class HomeComponentComponent implements OnInit {
 
   onUnLog(){
     this.appCookieService.set("token","");
+    this.appCookieService.remove("mail")
     this.jwtService.setToken("")
     window.location.reload()
   }

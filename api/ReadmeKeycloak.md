@@ -1,9 +1,29 @@
-to run the keycloak server, go to the quarkus-quickstarts: use this command
+1-To start keycloak, use this command in the keycloak directory:
 ```
-docker run -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:18.0.0 start-dev
+sudo docker-compose up
+```
+After this, you can access the keycloak Admin Console by opening a browser and typing ``http://localhost:8080``
+
+If you want to export your updated realm to be imported for ulterior uses of keycloak, you need to go sign in with an admin account (username : admin  | password : admin), then go to Export.
+You now have to select both "Export groups and roles" and "Export clients", then click on Export.
+
+You now have to replace the old realm-export.json file in /keycloak/imports with the new one you just downloaded.
+Next time you will start the docker, you should have your updated realm.
+
+To stop keycloak, use this command while in the keycloak directory : 
+```
+sudo docker-compose down
 ```
 
-if you have permission issues, use this command before :
+2-To get a token for a certain user, you have to use this curl command : 
+
 ```
-sudo chmod 666 /var/run/docker.sock
+curl --data "grant_type=password&client_id=nginx&client_secret=U0jzcij7NIXK2R4rE6RELUpVvb4nIqRg&username=matilin.thomas@etudiant.univ-rennes1.fr&password=1234" http://localhost:8080/auth/realms/projet_gl/protocol/openid-connect/token 
+```
+
+In this example, this command retrieves a token for the user matilin.thomas@etudiant.univ-rennes1.fr in the realm "projet_gl".
+
+You should get a response like this : 
+```
+{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJpTF8xcVYxWm1pSW5mZzRuVE1TbjAzQW5FakhZNU1aRXByLTBKdm1wMWtzIn0.eyJleHAiOjE2NTM0Mjg1MDMsImlhdCI6MTY1MzQyODIwMywianRpIjoiOWFiNzJiYjEtY2I3Mi00MzM3LWEwNjQtODk4OGZkY2I2ZDQ0IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL215cmVhbG0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiZTgyNDE1YzktZDBmNS00MmRmLWI2N2ItZGMyNTI5OTE3ODIxIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibmdpbngiLCJzZXNzaW9uX3N0YXRlIjoiOWNhOWIwNGMtZGY3ZC00ODkxLWIzY2UtY2EzZjU0NDYwMjU3IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJsb2NhbGhvc3QiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbXlyZWFsbSIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI5Y2E5YjA0Yy1kZjdkLTQ4OTEtYjNjZS1jYTNmNTQ0NjAyNTciLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJNYXRpbGluIFRob21hcyIsInByZWZlcnJlZF91c2VybmFtZSI6Im1hdGlsaW4udGhvbWFzQGV0dWRpYW50LnVuaXYtcmVubmVzMS5mciIsImdpdmVuX25hbWUiOiJNYXRpbGluIiwiZmFtaWx5X25hbWUiOiJUaG9tYXMiLCJlbWFpbCI6Im1hdGlsaW4udGhvbWFzQGV0dWRpYW50LnVuaXYtcmVubmVzMS5mciIsInVzZXJuYW1lIjoibWF0aWxpbi50aG9tYXNAZXR1ZGlhbnQudW5pdi1yZW5uZXMxLmZyIn0.QdKr8FGcbbtSuVyMp1y19BKd8Hx640aRJ9RpbW-A4qmUwWYr9c7xJFZ3NBC0qz1-pgFSlrEs1GWzxd40PfjwQq92exnkzIHtJ80mN52kmZhjMZ5ZO8kPAJXN5BVYm0a0ElczMvDw-AoTtHkkY0c0jpW20CS9gWeK0s8737rfV1MZyd4ZAb-jKzszMaeq79kQJdbQaGTHMEbGuxF1Ne-vIfST-_dEaNf7VIbD2uWSMUsMRNZHoWPfwMVmC3pTvakyDYRqAyhZx0_jyY0geXy9Rq89IOYDCA3S5lgnrvMhQEWcZMUdQMI_wOUhkXGpXr0FKHqj0Vw_FkMWqXB6bLCzRw","expires_in":300,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIxYmZmNzc4Yy04MGMzLTQzYjktODE2My1lZWY5OWEwMDdhODQifQ.eyJleHAiOjE2NTM0MzAwMDMsImlhdCI6MTY1MzQyODIwMywianRpIjoiY2RlM2RlYmItMzA5OC00ZTRhLWFhYWYtZjUwMWIxN2ZlNTFiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL215cmVhbG0iLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvbXlyZWFsbSIsInN1YiI6ImU4MjQxNWM5LWQwZjUtNDJkZi1iNjdiLWRjMjUyOTkxNzgyMSIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJuZ2lueCIsInNlc3Npb25fc3RhdGUiOiI5Y2E5YjA0Yy1kZjdkLTQ4OTEtYjNjZS1jYTNmNTQ0NjAyNTciLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI5Y2E5YjA0Yy1kZjdkLTQ4OTEtYjNjZS1jYTNmNTQ0NjAyNTcifQ.b1nfo2CNr0x02Xmed4_gtlh8_yfhlH67BQVMPkZoms0","token_type":"Bearer","not-before-policy":0,"session_state":"9ca9b04c-df7d-4891-b3ce-ca3f54460257","scope":"profile email"}
 ```

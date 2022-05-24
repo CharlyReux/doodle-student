@@ -51,6 +51,7 @@ export class RegisterComponent implements OnInit {
                 next: (token) => {
                     this.appCookieService.set("token", token)
                     this.pollService.setHeaderToken(token)
+                    this.appCookieService.set("mail",this.f.username.value);
                     this.router.navigate([""])
                 },
                 error: error => {

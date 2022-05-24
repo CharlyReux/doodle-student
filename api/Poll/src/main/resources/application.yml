@@ -16,8 +16,17 @@ quarkus:
     path: /swagger-ui-Poll
   rest-client:
     comment-api:
-      url: http://commentservice:8080
+      url: http://commentservice:8081
       scope: javax.inject.Singleton
     mailsender-api:
       url: http://mailsenderservice:8090
       scope: javax.inject.Singleton
+
+###################PAD################
+doodle:
+  usepad: true
+  internalPadUrl: "http://etherpad:9001/"
+  externalPadUrl: "http://localhost:9001/"
+  padApiKey: "a04f17343b51afaa036a7428171dd873469cd85911ab43be0503d29d2acbbd58"
+  organizermail: "charlyreux@gmail.com"
+  tmpfolder: "/tmp/excelFiles"

@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
 
@@ -15,7 +15,7 @@ services:
     environment:
     #TODO add PUT DELETE request
       - DISABLE_DEFAULT_SERVER=no
-      - SERVER_NAME= user.doodle.fr poll.doodle.fr dashboard.doodle.fr
+      # - SERVER_NAME= user.doodle.fr poll.doodle.fr dashboard.doodle.fr
       - GENERATE_SELF_SIGNED_SSL=yes 
       #- AUTO_LETS_ENCRYPT=yes
       - USE_REVERSE_PROXY=yes
@@ -28,7 +28,9 @@ services:
       # - user_service
       - poll_service
       - dashboard_service
-      - keycloak
+      #- keycloak
+
+
 
 ##################   User   #####################################
 
@@ -75,10 +77,10 @@ services:
     healthcheck:
       test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
       interval: 15s
-      timeout: 30s
+      timeout: 10s
       retries: 5
     networks:
-      - services-net
+      - dashboard_network
 
   dashboard_service:
     image: quarkus/dashboard-jvm:latest
@@ -90,6 +92,7 @@ services:
     restart: on-failure
     networks:
       - services-net
+      - dashboard_network
 
 ##################   Poll   #####################################
 
@@ -97,15 +100,18 @@ services:
     image: mysql
     ports:
       - "3307:3306"
+    expose:
+      - "3307"
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=poll
       - MYSQL_USER=poll_user
       - MYSQL_PASSWORD=poll_pswd
+      - MYSQL_TCP_PORT= 3307
     healthcheck:
       test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
       interval: 15s
-      timeout: 30s
+      timeout: 10s
       retries: 5
     networks:
       - poll_network
@@ -122,35 +128,72 @@ services:
       - services-net
       - poll_network
 
+##################   Comment   #####################################
+  
+  commentdb:
+    image: mysql
+    ports:
+      - "3309:3306"
+    expose:
+      - "3309"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=comment
+      - MYSQL_USER=comment_user
+      - MYSQL_PASSWORD=comment_pswd
+      - MYSQL_TCP_PORT= 3309
+    healthcheck:
+      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - poll_network
+
+  commentservice:
+    image: quarkus/comment-jvm:latest
+    depends_on:
+      commentdb:
+        condition: service_healthy
+      poll_service:
+        condition: service_started
+    ports:
+      - "8081:8080"
+    restart: on-failure
+    networks:
+      - poll_network
 ##################   Pad   #####################################
 
-  # etherpad:
-  #   image: etherpad/etherpad:latest
-  #   ports:
-  #     - "9001:9001"
-  #   volumes:
-  #     - ./APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
+  etherpad:
+    image: etherpad/etherpad:latest
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./Poll/APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
+    networks:
+      - services-net
 
 ##################   Keycloak   #####################################
 
-  keycloak:
-    image: quay.io/keycloak/keycloak:18.0.0
-    ports:
-      - 8080:8080
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=dashboard
-      - MYSQL_USER=dashboard_user
-      - MYSQL_PASSWORD=dashboard_pswd
-      - MYSQL_TCP_PORT= 3308
-    healthcheck:
-      test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
-      interval: 20s
-      timeout: 30s
-      retries: 5
-    networks:
-      - services-net
+  # keycloak:
+  #   image: quay.io/keycloak/keycloak:18.0.0
+  #   ports:
+  #     - 8080:8080
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=root
+  #     - MYSQL_DATABASE=dashboard
+  #     - MYSQL_USER=dashboard_user
+  #     - MYSQL_PASSWORD=dashboard_pswd
+  #     - MYSQL_TCP_PORT= 3308
+  #   healthcheck:
+  #     test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
+  #     interval: 20s
+  #     timeout: 30s
+  #     retries: 5
+  #   networks:
+  #     - services-net
     
 networks:
   services-net:
   poll_network:
+  dashboard_network:

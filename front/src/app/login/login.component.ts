@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
             .subscribe({
                 next: (token) => {
                     this.appCookieService.set("token",token)
+                    this.appCookieService.set("mail",this.f.username.value);
                     this.pollService.setHeaderToken(token)
                     this.router.navigate([""])
                 },

@@ -39,14 +39,14 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(["/log"])
     } 
 
-    console.log(this.jwtService.getEmailId())
+    console.log(this.appCookieService.get("mail"))
 
 
 
 
 
     //retrieving all the polls 
-    this.pollService.getAllPollsFromUser(this.jwtService.getEmailId()).subscribe(allPoll=>{
+    this.pollService.getAllPollsFromUser(this.appCookieService.get("mail")).subscribe(allPoll=>{
       this.myPollArray = allPoll
       this.dataSourcead = this.myPollArray.adPolls
       this.dataSourceus = this.myPollArray.userPolls

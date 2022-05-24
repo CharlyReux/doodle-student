@@ -2,7 +2,6 @@ import { DebugElement, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Poll, PollChoice, User, ChoiceUser, PollCommentElement, EventDTOAndSelectedChoice, dashBoardPolls } from './model/model';
 import { Observable } from 'rxjs';
-import { JWTTokenService } from './jwttoken-service.service';
 import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 
 @Injectable({
@@ -22,8 +21,7 @@ export class PollService {
 
 
 
-  constructor(private http: HttpClient,
-    private jwtService: JWTTokenService) { }
+  constructor(private http: HttpClient) { }
 
   public createPoll(p: Poll): Observable<Poll> {
     const requestOptions = {                                                                                                                                                                                 
@@ -103,7 +101,9 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    console.log("TETST");
+    console.log(poll);
+    console.log(mail);
+    poll.id=null;
     return this.http.post<Poll>('/api/dashboard/addPollAdmin/'+mail,poll,requestOptions);//FIXME: need to test this
   }
 
@@ -111,6 +111,9 @@ export class PollService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
+    console.log(poll);
+    console.log(mail);
+    poll.id=null;
     return this.http.post<Poll>('/api/dashboard/addPollUser/'+mail,poll,requestOptions);//FIXME: need to test this
   }
 
