@@ -1,4 +1,4 @@
-name: Meal Manager Service Docker Image CI
+name: Comments service Docker Image CI
 
 on:
   push:
@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: cd api/MealManager && ./mvnw package && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/mealmanager-jvm .
+      run: cd api/comments && ./mvnw package -DskipTests=true && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/comments-jvm .
