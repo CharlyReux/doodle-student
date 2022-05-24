@@ -228,10 +228,6 @@ export class CreatePollComponentComponent implements OnInit {
       this.poll.urlSondageAd = window.location.protocol + '//' + window.location.host + '/admin/' 
 
 
-      if(this.jwtService.getEmailId()!=null){
-        console.log(this.jwtService.getEmailId())
-        this.pollService.addPollToAdmin(this.jwtService.getEmailId(),this.poll).subscribe(()=>console.log("ou"));//FIXME: to test
-      }
 
       this.pollService.createPoll(this.poll).subscribe(p1 => {
         this.poll = p1;
@@ -241,6 +237,10 @@ export class CreatePollComponentComponent implements OnInit {
         this.urlpad = p1.padURL;
         this.step = 2;
 
+        if(this.jwtService.getEmailId()!=null){
+          console.log(this.jwtService.getEmailId())
+          this.pollService.addPollToAdmin(this.jwtService.getEmailId(),this.poll).subscribe(()=>console.log("ou"));
+        }
       });
 
 

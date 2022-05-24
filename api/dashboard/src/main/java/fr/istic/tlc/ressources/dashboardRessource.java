@@ -74,25 +74,7 @@ public class dashboardRessource{
 
 		return new ResponseEntity<>(TMPdU, HttpStatus.CREATED);
 	}
-
-    @GetMapping("/getUserPolls/{mailUser}")
-    @Operation(summary = "retrieves all the user polls of the user")
-    public ResponseEntity<dashboard> getUserPolls(@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("mailUser") String mailUser){
-        return new ResponseEntity<>(this.dashBoardRepository.findByMailUser(mailUser) ,HttpStatus.OK);
-    }
-
-    @GetMapping("/allDash")
-    @Operation(summary = "retrieves all the dashboards")
-    public ResponseEntity<List<dashboard>> getAllDashBoard() {
-        return new ResponseEntity<>(this.dashBoardRepository.findAll().list(),HttpStatus.OK);
-    }
-
-    @GetMapping("/allPolls")
-    @Operation(summary = "retrieves all the dashboards")
-    public ResponseEntity<List<pollCopy>> getAllPolls() {
-        return new ResponseEntity<>(this.pollCopyRepository.findAll().list(),HttpStatus.OK);
-    }
-
+    
     @PostMapping("/addPollUser/{mailUser}")
 	@Transactional
     @Operation(summary = "Adds a poll corresponding to the user in User poll",description = "retirieves the user if exists then add the data, else creates the user and adds the data")
@@ -124,5 +106,25 @@ public class dashboardRessource{
 
 		return new ResponseEntity<>(TMPdU, HttpStatus.CREATED);
 	}
+
+    @GetMapping("/getUserPolls/{mailUser}")
+    @Operation(summary = "retrieves all the user polls of the user")
+    public ResponseEntity<dashboard> getUserPolls(@Parameter(example = "1",in = ParameterIn.PATH) @PathVariable("mailUser") String mailUser){
+        return new ResponseEntity<>(this.dashBoardRepository.findByMailUser(mailUser) ,HttpStatus.OK);
+    }
+
+    @GetMapping("/allDash")
+    @Operation(summary = "retrieves all the dashboards")
+    public ResponseEntity<List<dashboard>> getAllDashBoard() {
+        return new ResponseEntity<>(this.dashBoardRepository.findAll().list(),HttpStatus.OK);
+    }
+
+    @GetMapping("/allPolls")
+    @Operation(summary = "retrieves all the dashboards")
+    public ResponseEntity<List<pollCopy>> getAllPolls() {
+        return new ResponseEntity<>(this.pollCopyRepository.findAll().list(),HttpStatus.OK);
+    }
+
+   
 
 }

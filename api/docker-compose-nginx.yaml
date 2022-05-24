@@ -15,7 +15,7 @@ services:
     environment:
     #TODO add PUT DELETE request
       - DISABLE_DEFAULT_SERVER=no
-      - SERVER_NAME= user.doodle.fr poll.doodle.fr dashboard.doodle.fr
+      # - SERVER_NAME= user.doodle.fr poll.doodle.fr dashboard.doodle.fr
       - GENERATE_SELF_SIGNED_SSL=yes 
       #- AUTO_LETS_ENCRYPT=yes
       - USE_REVERSE_PROXY=yes
