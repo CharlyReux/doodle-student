@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: cd api/dashboard && ./mvnw package && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/Dashboard-jvm .
+      run: cd api/dashboard && ./mvnw package && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/dashboard-jvm .
