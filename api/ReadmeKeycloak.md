@@ -53,6 +53,6 @@ Maintenant que nous avons un token admin, il faut créer l'utilisateur.
 
 Voici la commande : 
 ```
-curl -v http://localhost:8085/auth/admin/realms/projet_gl/users -H "Content-Type: application/json" -H "Authorization: bearer $TOKEN"   --data '{"username":"une_adresse_mail", "enabled":"true", "credentials":[{"type":"password","value":"votre_mot_de_passe","temporary":false}]}'
+curl -v http://localhost:8080/auth/admin/realms/projet_gl/users -H "Content-Type: application/json" -H "Authorization: bearer $TOKEN"   --data '{"username":"une_adresse_mail", "enabled":"true", "credentials":[{"type":"password","value":"votre_mot_de_passe","temporary":false}]}'
 ```
 Il est possible d'ajouter d'autres attributs à l'utilisateur comme "firstName" ou "lastName". Comme les "username" sont en fait des adresses mail, l'attribut "mail" n'a pas d'utilité ici.
