@@ -1,25 +1,24 @@
-# Remote meetings planning
+# Doodle en Quarkus avec microservices
 
-This project is used in a course on the *ops* part at the [University of Rennes](https://www.univ-rennes1.fr/), France. It is a kind of doodle clone developed in so-called "native cloud" technologies in order to allow students to work on a continuous deployment chain in a containerized environment. Among the feature, the application automatically initializes a pad for the meeting and a chat room for the meeting participants.
+Ce repository est un fork du projet doodle fait avec quarkus.io, qui a pour but de changer son architecture en microservices.
 
-- The [back](https://github.com/barais/doodlestudent/tree/main/api) is developed using the [quarkus.io](https://quarkus.io/) framework. 
-- The [front](https://github.com/barais/doodlestudent/tree/main/front) is developed in [angular](https://angular.io/) using the [primeng](https://www.primefaces.org/primeng/)  angular UI component library and the [fullcalendar](https://fullcalendar.io/) graphical component.
+Cette nouvelle architecture se trouve dans le dossier /api, et l'ancienne dans /api_old.
 
-A demo of the application is available [here](https://doodle.diverse-team.fr/).
+## Architecture
 
-Three videos (in french) are available. They present:
-- the [main application feature](https://drive.google.com/file/d/1GQbdgq2CHcddTlcoHqM5Zc8Dw5o_eeLg/preview), 
-- its [architecture](https://drive.google.com/file/d/1l5UAsU5_q-oshwEW6edZ4UvQjN3-tzwi/preview) 
-- and a [short code review](https://drive.google.com/file/d/1jxYNfJdtd4r_pDbOthra360ei8Z17tX_/preview) .
+La nouvelle architecture se compose de ceci :
+ - un Front en Angular
 
-For french native speaker that wants to follow the course. The course web page is available [here](https://hackmd.diverse-team.fr/s/SJqu5DjSD).
+ - une API Gateway en NGinx qui est liée à : 
+  - un service d'authentification avec Keycloak
+  - un microservice Dashboard
+  - un microservice Poll
 
-## TODO
+Poll est le microservice qui permet la création des polls, et a accès à : 
+ - un microservice Chat
+ - un microservice EtherPad
+ - un microservice Comment
 
-### Front
-- Sens requestd to the userservice and add the endpoints to reach them
-- Automatically fill the fields of the poll in which the user is participating when he is logged in
-(- Check how the links are made)
-- Add the tickboxes for the meal selection
-### Back
-- Finish the comment (add idpoll and thing)
+Le service d'authentification permet d'empêcher les utilisateurs inconnus d'accéder au service Dashboard, qui permet de retrouver les historiques des polls créés par les utilisateurs ayant un compte.
+Quand il y a une demande de création de poll, le Front envoie sa demande à l'API Gateway, qui va elle envoyer une requête à Poll. Poll crée un poll dans sa base de données, et appelle Chat, EtherPad et Comment pour les lier au poll généré.
+Quand une personne se connecte ou crée un compte, l'API Gateway redirige les requêtes vers Keycloak, pour que celui-ci envoie un token quand il s'agit d'une connexion, ou ajoute l'utilisateur dans sa BDD quand il s'agit d'une création.
