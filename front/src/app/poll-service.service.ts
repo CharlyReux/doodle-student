@@ -14,7 +14,7 @@ export class PollService {
     'content-type': 'application/json',
     'Accept': 'application/json',
     'Authorization':""
-    //pas sur de a quoi ca ser'Access-Control-Allow-Headers': 'Content-Type',
+    //'Access-Control-Allow-Headers': 'Content-Type',
   }
 
 
