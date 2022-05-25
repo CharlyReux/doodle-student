@@ -13,7 +13,6 @@ services:
       # - ./www:/www:ro
      # - ./nginx/global.env:/etc/nginx//global.env
     environment:
-    #TODO add PUT DELETE request
       - DISABLE_DEFAULT_SERVER=no
       # - SERVER_NAME= user.doodle.fr poll.doodle.fr dashboard.doodle.fr
       - GENERATE_SELF_SIGNED_SSL=yes 
