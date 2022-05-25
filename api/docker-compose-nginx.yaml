@@ -175,23 +175,62 @@ services:
 
 ##################   Keycloak   #####################################
 
-  # keycloak:
-  #   image: quay.io/keycloak/keycloak:18.0.0
-  #   ports:
-  #     - 8080:8080
-  #   environment:
-  #     - MYSQL_ROOT_PASSWORD=root
-  #     - MYSQL_DATABASE=dashboard
-  #     - MYSQL_USER=dashboard_user
-  #     - MYSQL_PASSWORD=dashboard_pswd
-  #     - MYSQL_TCP_PORT= 3308
-  #   healthcheck:
-  #     test: [ 'CMD', 'mysqladmin', 'ping', '-u', 'root', '-p root' ]
-  #     interval: 20s
-  #     timeout: 30s
-  #     retries: 5
-  #   networks:
-  #     - services-net
+
+  postgres:
+      image: postgres
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: password
+  keycloak:
+      image: jboss/keycloak
+      #build: ./keycloak/
+      volumes:
+        - .keycloak/imports:/tmp/import
+      command:
+      - "-Dkeycloak.migration.action=import"
+      - "-Dkeycloak.migration.provider=dir"
+      - "-Dkeycloak.migration.dir=/tmp/import"
+      environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
+        DB_SCHEMA: public
+        DB_PASSWORD: password
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: admin
+        KEYCLOAK_IMPORT: /tmp/realm-export.json
+      #  KEYCLOAK_IMPORT: /imports/realm-export.json #-Dkeycloak.profile.feature.upload_scripts=enabled
+        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+        #JDBC_PARAMS: "ssl=true"
+      ports:
+        - 8085:8080
+      depends_on:
+        - postgres
+      #volumes:
+      #  - /imports/realm-export.json:/imports/realm-export.json
+
+      ###TODO: pour set up le keycloak:
+#      - se connecter à keycloak, 
+#      - en haut à gauche, mettre le curseur sur "Master", puis cliquer sur add Realm
+#      - ici, cliquer sur "import"
+#      - mettre le fichier realm-export.json (qui est dans keycloak/imports)
+#      - valider
+#    ensuite il faut:
+#     - aller dans Client
+#     - cliquer sur nginx
+#     - aller dans Credentials 
+#     - cliquer sur Regenerate
+#     - copier la clé
+#     - aller dans le fichier front/src/app/pool-service.service
+#     - remplacer la clé à la ligne 163 par la clé copiée
+volumes:
+  postgres_data:
+      driver: local
+   
     
 networks:
   services-net:

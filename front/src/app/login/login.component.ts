@@ -43,14 +43,14 @@ export class LoginComponent implements OnInit {
 
         this.loading = true;
 
-
+ 
          this.pollService.logUser(this.f.username.value, this.f.password.value)
             .pipe(first())
             .subscribe({
                 next: (token) => {
-                    this.appCookieService.set("token",token)
+                    this.appCookieService.set("token",token.access_token)
                     this.appCookieService.set("mail",this.f.username.value);
-                    this.pollService.setHeaderToken(token)
+                    this.pollService.setHeaderToken(token.access_token)
                     this.router.navigate([""])
                 },
                 error: error => {

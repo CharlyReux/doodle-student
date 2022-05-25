@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
     form: FormGroup;
     loading = false;
     submitted = false;
+    tmpToken
 
     constructor(
         private pollService: PollService,
@@ -34,6 +35,10 @@ export class RegisterComponent implements OnInit {
     get f() { return this.form.controls; }
 
     onSubmit() {
+
+
+
+
         this.submitted = true;
 
 
@@ -45,19 +50,30 @@ export class RegisterComponent implements OnInit {
         this.loading = true;
 
 
-        this.pollService.regUser(this.f.username.value, this.f.password.value)
-            .pipe(first())
-            .subscribe({
-                next: (token) => {
-                    this.appCookieService.set("token", token)
-                    this.pollService.setHeaderToken(token)
-                    this.appCookieService.set("mail",this.f.username.value);
-                    this.router.navigate([""])
-                },
-                error: error => {
-                    this.loading = false;
-                    alert(error)
-                }
-            });
+        this.pollService.getAdToken().subscribe(result => {
+            this.tmpToken = result.access_token
+            console.log(result.access_token);
+            this.pollService.registerUser(this.tmpToken, this.f.username.value, this.f.password.value)
+                .pipe(first())
+                .subscribe({
+                    next: (token) => {
+                        this.appCookieService.set("mail", this.f.username.value);
+
+                        this.pollService.logUser(this.f.username.value, this.f.password.value).subscribe((token) => {
+                            this.appCookieService.set("token", token.access_token)
+                            this.pollService.setHeaderToken(token.access_token)
+                            this.router.navigate([""])
+                        })
+
+                    },
+                    error: error => {
+                        this.loading = false;
+                        alert(error)
+                    }
+                });
+
+        })
+
+
     }
 }

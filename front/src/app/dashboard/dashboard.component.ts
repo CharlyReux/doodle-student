@@ -35,9 +35,9 @@ export class DashboardComponent implements OnInit {
     
     this.jwtService.setToken(this.appCookieService.get("token"))
 
-    if(!this.jwtService.getUser() || this.jwtService.isTokenExpired()){
+    /*if(!this.jwtService.getUser() || this.jwtService.isTokenExpired()){
       this.router.navigate(["/log"])
-    } 
+    } */
 
     console.log(this.appCookieService.get("mail"))
 

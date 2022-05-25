@@ -1,6 +1,6 @@
 import { DebugElement, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Poll, PollChoice, User, ChoiceUser, PollCommentElement, EventDTOAndSelectedChoice, dashBoardPolls } from './model/model';
+import { Poll, PollChoice, User, ChoiceUser, PollCommentElement, EventDTOAndSelectedChoice, dashBoardPolls, responseToken } from './model/model';
 import { Observable } from 'rxjs';
 import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 
@@ -126,32 +126,51 @@ export class PollService {
 
 
 
-  //TODO: add the user register and login endpoints
-/**
- * 
- * @param username the mail of the user
- * @param password The password of the user
- * @returns an identification token
- */
-  public logUser(username:string, password:string):Observable<string>{
+
+
+  public getAdToken():Observable<responseToken>{
+    
+    let body = new URLSearchParams();
+    body.set("username","admin")
+    body.set("password","admin")
+    body.set("grant_type","password")
+    body.set("client_id","admin-cli")
+
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+  };
+    return this.http.post<responseToken>("/auth/realms/master/protocol/openid-connect/token",body.toString(),options)
+  }
+
+  public registerUser(token:string,email:string,password:string):Observable<void>{
+    this.headerDict.Authorization = "bearer "+ token;
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(this.headerDict), 
     };
-    const userLogPost={username:username,password:password,client_id:"nginx"}
-    return this.http.post<string>('/auth/realms/Myrealm/protocol/openid-connect/token',userLogPost,requestOptions)
+    const userData=
+    {"username":email,
+    "email":email,
+    "enabled":"true",
+    "credentials":[{"type":"password","value":password,"temporary":false}]}
+    return this.http.post<void>("/auth/admin/realms/projet_gl/users",userData,requestOptions)
   }
 
-//
-  public regUser(username:string, password:string):Observable<string>{
-    const tmpHeader = this.headerDict
+  public logUser(username:string,password:string):Observable<responseToken>{
 
-    tmpHeader.Authorization ='Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJFY2dlX3Y0c09fZUZ0TnhqYWJjT19QLTBhQ3p6S2VfMW02OU5mRjlBc1VzIn0.eyJleHAiOjE1OTI1Njc4OTEsImlhdCI6MTU5MjU2NzgzMSwianRpIjoiNjJiMWRlODEtNTBhMS00NzA2LWFmN2MtYzhhZTc1YTg1OTJhIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL21hc3RlciIsInN1YiI6IjNmYjc1YTM4LTA4NjctNGZlYi04ZTBlLWYzMTkxZTZlODZlMSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiJhMDMwNGNiMS0xMzViLTQzODItYjYwMi0xNjNmNzgzYWNlN2IiLCJhY3IiOiIxIiwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbjIifQ.G9-OiyrGWk8cY4S3Ho255Y_euk_gTKDgYmGmU8RPBSeBNtFb_A68tuPFJxFKbzhZ1lipKJCXQsHbStoihvXAmmRsKzud5hDIvvnrD7CcVxAIpbd2wV5i6mB2wVLocV0_FCrE0-DNi_GPAKnazjFiVu3TxxM2L8Zsw7PHN9sb8Ux_lRvAFyNY5bT7NTbmEmt6LsO2An7iTZdBLScK9Lk9ZW8_0WG4eLMy9fatrpVV3MXhINW56gZD8WsWISY0m-cbIftDreZ1f2lzIjMGfkDrgCjy-VZjeIpbmffN-YGrUVywziymBRwA7FFLAxcf6jS5548HVxxKeMPIvNEfDG7eWw'
-    const requestOptions = {                                                                                                                                                                                 
-      headers: new HttpHeaders(this.headerDict), 
-    };
-    const userRegPost = {"firstName":"","lastName":"", "email":username, "enabled":"true", "username":"app-user","password":password}
-    return this.http.post<string>("/auth/admin/realms/appsdeveloperblog/users",userRegPost,requestOptions)
+    let body = new URLSearchParams();
+    body.set("username",username)
+    body.set("grant_type","password")
+    body.set("client_secret","eiwqZFuSfUkrwU3LzMZlprlLxRDozxHL")
+    body.set("client_id","nginx")
+    body.set("password",password)
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+  };
+
+    return this.http.post<responseToken>("/auth/realms/projet_gl/protocol/openid-connect/token",body.toString(),options)
+
   }
+
 
 
 }

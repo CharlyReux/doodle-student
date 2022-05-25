@@ -62,3 +62,7 @@ export interface dashBoardPolls{
   adPolls?:Poll[];
   userPolls?:Poll[];
 }
+
+export interface responseToken{
+  access_token?:string
+}
